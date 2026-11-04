@@ -1,0 +1,9 @@
+{
+  "name": "js-split",
+  "private": true,
+  "description": "Splits JavaScript files into statement blocks for the Semgrep fallback scan (scripts/semgrep_fallback.py)",
+  "type": "module",
+  "dependencies": {
+    "acorn": "8.19.0"
+  }
+}

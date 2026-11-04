@@ -1,0 +1,61 @@
+name: Rule tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: rules-test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Semgrep rules and gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        with:
+          version: 0.13.5
+          enable-cache: false
+
+      - name: Validate rules
+        run: uvx semgrep==1.182.1 --validate --metrics=off --config rules/
+
+      # tests/rules/<name>.js contains ruleid/ok annotations for rules/<name>.yml
+      - name: Rule test cases
+        run: uvx semgrep==1.182.1 scan --test --metrics=off --config rules/ tests/rules/
+
+      - name: Gate tests
+        run: python3 -I -m unittest discover -s tests -v
+
+      # Suppressions and file selection in the scanned code (nosemgrep, ignore files,
+      # Semgrep default exclusions, size limit, osv-scanner.toml) hide no matches
+      - name: Evasion tests
+        env:
+          SEMGREP_VERSION: 1.182.1
+        run: |
+          scripts/install-osv-scanner.sh "$RUNNER_TEMP/osv-scanner"
+          tests/test_evasion.sh "$RUNNER_TEMP/osv-scanner"
+
+      # Fallback scan with real Semgrep and the acorn splitter (unit tests run above)
+      - name: Fallback scan integration
+        env:
+          SEMGREP_VERSION: 1.182.1
+          REQUIRE_INTEGRATION: "1"
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund --prefix scripts/js-split
+          python3 -I -m unittest discover -s tests -p test_fallback.py -v

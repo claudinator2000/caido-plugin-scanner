@@ -1,0 +1,66 @@
+rules:
+  # Dynamic access to global objects: globalThis["fe"+"tch"], window[k]
+  - id: obf-dynamic-global-access
+    message: Dynamic property access on a global object (hidden API call)
+    severity: WARNING
+    languages: [javascript, typescript]
+    patterns:
+      - pattern-either:
+          - pattern: globalThis[$K]
+          - pattern: window[$K]
+          - pattern: self[$K]
+          - pattern: global[$K]
+          - pattern: navigator[$K]
+      - pattern-not: $O["$LIT"]
+    options:
+      constant_propagation: false
+  # Executing code from strings
+  - id: obf-dynamic-code-exec
+    message: Code execution from a string (eval / Function / setTimeout string)
+    severity: WARNING
+    languages: [javascript, typescript]
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: new Function(...)
+      - pattern: Function(...)
+      - pattern: setTimeout("$S", ...)
+      - pattern: setInterval("$S", ...)
+  # Loading modules/URLs dynamically
+  - id: obf-dynamic-require-import
+    message: require/import with a non-literal argument
+    severity: WARNING
+    languages: [javascript, typescript]
+    patterns:
+      - pattern-either:
+          - pattern: require($X)
+          - pattern: import($X)
+      - pattern-not: require("...")
+      - pattern-not: import("...")
+      - pattern-not: import(`...`)
+  # Decoding strings at runtime and using them further
+  - id: obf-decode-into-call
+    message: Decoded string (atob/base64/fromCharCode) is used as a URL, function name or code
+    severity: WARNING
+    languages: [javascript, typescript]
+    mode: taint
+    pattern-sources:
+      - pattern: atob(...)
+      - pattern: Buffer.from($X, "base64")
+      - pattern: String.fromCharCode(...)
+      - pattern: $S.split("").reverse().join("")
+    pattern-sinks:
+      - pattern: fetch($URL, ...)
+      - pattern: navigator.sendBeacon($URL, ...)
+      - pattern: new WebSocket($URL, ...)
+      - pattern: $O[$KEY]
+      - pattern: $O[$KEY](...)
+      - pattern: eval(...)
+      - pattern: new Function(...)
+      - pattern: require($X)
+      - pattern: import($X)
+  # Tool obfuscation (javascript-obfuscator and similar)
+  - id: obf-tool-signature
+    message: Signatur eines JS-Obfuscators (_0x-Bezeichner / String-Array-Rotation)
+    severity: ERROR
+    languages: [regex]
+    pattern-regex: '\b_0x[a-f0-9]{4,6}\b'

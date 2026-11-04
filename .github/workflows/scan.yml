@@ -1,0 +1,307 @@
+name: Caido plugin scan
+
+# Modes (scripts/watch.py):
+# - full: all plugins; daily, so new OSV/malware entries also reach unchanged plugins,
+#   and on a manual start without "repo".
+# - changed: new plugins and those whose release, baseline or scanner configuration
+#   changed; every 30 minutes and on pushes.
+# - single scan: manual start with "repo" = maintainer/repo; does not touch the stored state.
+# A full scan costs ~100 job minutes: free in a public repository, adjust the schedule in a
+# private copy.
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "Empty = full scan of all plugins. maintainer/repo (or GitHub URL) = scan only this repo"
+        required: false
+  schedule:
+    - cron: '17 5 * * *'
+    - cron: '13,43 * * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - extra-repos.txt
+      - rules/**
+      - baselines/**
+      - scripts/**
+      - .github/workflows/scan.yml
+
+permissions: {}
+
+# Never cancel a running scan: its results feed the stored state.
+concurrency:
+  group: caido-plugin-scan-${{ github.ref }}-${{ inputs.repo != '' && format('adhoc-{0}', inputs.repo) || ((github.event.schedule == '17 5 * * *' || github.event_name == 'workflow_dispatch') && 'full' || 'changed') }}
+  cancel-in-progress: false
+
+env:
+  GUARDDOG_VERSION: 3.2.0
+  SEMGREP_VERSION: 1.182.1
+  MODE: ${{ (github.event.schedule == '17 5 * * *' || github.event_name == 'workflow_dispatch') && 'full' || 'changed' }}
+
+jobs:
+  list:
+    name: Plugin list
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      matrix: ${{ steps.select.outputs.matrix }}
+      count: ${{ steps.select.outputs.count }}
+      keys: ${{ steps.select.outputs.keys }}
+      plugins: ${{ steps.select.outputs.plugins }}
+      selection: ${{ steps.select.outputs.selection }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Collect store plugins and extra repos
+        shell: bash
+        env:
+          ADHOC_REPO: ${{ inputs.repo }}
+        run: |
+          set -euo pipefail
+          if [ -n "$ADHOC_REPO" ]; then
+            scripts/adhoc-plugin.sh "$ADHOC_REPO" all.json
+            cp all.json overview.json
+            jq -r '"Single scan: [\(.[0].repo)](https://github.com/\(.[0].repo)), result not stored in the state"' \
+              all.json > store-line.md
+            exit 0
+          fi
+          # Fixed store commit, shown in the summary
+          store_sha=$(git ls-remote https://github.com/caido/store.git refs/heads/main | cut -f1)
+          if ! [[ "$store_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::cannot determine the store commit"
+            exit 1
+          fi
+          echo "Store state: [caido/store@${store_sha:0:12}](https://github.com/caido/store/blob/$store_sha/plugin_packages.json)" \
+            > store-line.md
+          # An invalid public_key becomes empty: the plugin stays listed and fails the signature check
+          curl -sfL "https://raw.githubusercontent.com/caido/store/$store_sha/plugin_packages.json" \
+            | jq -c '[.[] | {id, repo: .repository, store: true,
+                             public_key: (if (.public_key | type) == "string"
+                                             and (.public_key | test("^[A-Za-z0-9+/=]{1,200}$"))
+                                          then .public_key else "" end)}]' \
+            > store.json
+          # Extra repos: "owner/repo" or "id owner/repo" per line, no store signature
+          { grep -vE '^\s*(#|$)' extra-repos.txt || true; } \
+            | awk '{ if (NF==1) {split($1,a,"/"); print a[2], $1} else print $1, $2 }' \
+            | jq -R -c 'split(" ") | {id: .[0], repo: .[1], store: false, public_key: ""}' | jq -s -c . > extra.json
+          jq -c -s 'add' store.json extra.json > raw.json
+          # id becomes a path and artifact name, repo part of the clone URL: safe characters only
+          jq -c '[.[] | select((.id | type == "string" and test("^[A-Za-z0-9][A-Za-z0-9._-]*$"))
+                          and (.repo | type == "string" and test("^[A-Za-z0-9-]+/[A-Za-z0-9._-]+$")))]' \
+            raw.json > all.json
+          rejected=$(( $(jq length raw.json) - $(jq length all.json) ))
+          if [ "$rejected" -gt 0 ]; then
+            echo "::warning::$rejected entries with invalid id/repo dropped"
+          fi
+          # Duplicate ids would make the scanned entry depend on the order
+          dups=$(jq -r '[.[].id] | group_by(.) | map(select(length > 1) | .[0]) | join(", ")' all.json)
+          if [ -n "$dups" ]; then
+            echo "::error::duplicate plugin ids: $dups"
+            exit 1
+          fi
+          cp all.json overview.json
+          if [ "$(jq length all.json)" -eq 0 ]; then
+            echo "::error::no plugins to scan"
+            exit 1
+          fi
+          echo "$(jq length all.json) plugins"
+
+      - name: Restore stored state
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: scan-state
+          key: scan-state-${{ github.run_id }}
+          restore-keys: scan-state-
+
+      - id: select
+        name: Select plugins to scan
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Scanner configuration hash: rules, scripts, config and this workflow (tool versions)
+          config=$(git ls-files -s -- rules scripts config .github/workflows/scan.yml | sha256sum | cut -d' ' -f1)
+          python3 -I scripts/watch.py select "$MODE" all.json scan-state/state.json "$config" baselines \
+            matrix.json keys.json selection.md
+          printf '%s\n\n' "$(cat store-line.md)" | cat - selection.md > selection-full.md
+          eof="EOF_$(openssl rand -hex 16)"
+          {
+            echo "matrix=$(cat matrix.json)"
+            echo "count=$(jq length matrix.json)"
+            echo "keys=$(cat keys.json)"
+            echo "plugins=$(jq -c '[.[] | {id, repo, store}]' overview.json)"
+            echo "selection<<$eof"
+            cat selection-full.md
+            echo "$eof"
+          } >> "$GITHUB_OUTPUT"
+
+  scan:
+    needs: list
+    if: needs.list.outputs.count != '0'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        plugin: ${{ fromJson(needs.list.outputs.matrix) }}
+    name: ${{ matrix.plugin.id }}
+    env:
+      ID: ${{ matrix.plugin.id }}
+      REPO: ${{ matrix.plugin.repo }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        with:
+          version: 0.13.5
+          enable-cache: false
+
+      # Plugin content is untrusted: only unpacked/cloned, never built or installed. Steps
+      # that process it run via no-workflow-commands.sh.
+      - name: Download package, verify signature and unpack
+        env:
+          STORE: ${{ matrix.plugin.store }}
+          PUBLIC_KEY: ${{ matrix.plugin.public_key }}
+        run: scripts/no-workflow-commands.sh scripts/fetch-target.sh "$REPO" "$ID" "$STORE" "$PUBLIC_KEY"
+
+      - name: Inventory and workflow code
+        run: scripts/no-workflow-commands.sh python3 -I scripts/inventory.py target inventory.json
+
+      # threat-runtime-obfuscation-api fires on almost every minified Vue/PrimeVue bundle.
+      # Exit 0 even on errors; findings.py checks the output for completeness.
+      - name: GuardDog
+        run: |
+          scripts/no-workflow-commands.sh bash -c 'set -euo pipefail
+            uvx "guarddog==$GUARDDOG_VERSION" npm scan target/ --output-format json \
+              --exclude-rules threat-runtime-obfuscation-api > guarddog.json'
+
+      - name: Install JS splitter
+        run: npm ci --ignore-scripts --no-audit --no-fund --prefix scripts/js-split
+
+      - name: Semgrep
+        run: scripts/no-workflow-commands.sh scripts/semgrep-scan.sh target semgrep.json
+
+      - name: OSV-Scanner (Lockfile)
+        run: |
+          scripts/install-osv-scanner.sh "$RUNNER_TEMP/osv-scanner"
+          scripts/no-workflow-commands.sh scripts/osv-scan.sh "$RUNNER_TEMP/osv-scanner" src osv.json
+
+      # KNOWN_BLOCKING: findings already reported for this plugin state (watch.py); they keep
+      # blocking but do not fail the job again if the scanned target matches KNOWN_STATE.
+      - name: Check against baseline
+        env:
+          KNOWN_BLOCKING: ${{ toJSON(matrix.plugin.known) }}
+          KNOWN_STATE: ${{ matrix.plugin.known_state }}
+        run: >-
+          scripts/no-workflow-commands.sh
+          python3 -I scripts/findings.py "$ID" guarddog.json semgrep.json osv.json inventory.json
+          "baselines/$ID.json" report.json src source.txt "$REPO" "$MODE"
+
+      # download-artifact unpacks a single artifact without its own directory, so the
+      # report brings report-<id>/ itself
+      - name: Prepare report
+        if: always()
+        run: |
+          mkdir -p "upload/report-$ID"
+          for f in report.json guarddog.json semgrep.json osv.json inventory.json sha256.txt source.txt; do
+            if [ -f "$f" ]; then cp "$f" "upload/report-$ID/"; fi
+          done
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: report-${{ matrix.plugin.id }}
+          path: upload/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # Runs on every run, also when scans failed or nothing was scanned: then it shows every
+  # plugin with its last result.
+  summary:
+    name: Overview
+    needs: [list, scan]
+    if: always() && needs.list.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download reports
+        if: needs.list.outputs.count != '0'
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: report-*
+          path: reports
+          merge-multiple: true
+
+      - name: Restore stored state
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: scan-state
+          key: scan-state-${{ github.run_id }}
+          restore-keys: scan-state-
+
+      # A single scan and a run without scans leave the state unchanged
+      - name: Update state
+        if: inputs.repo == '' && needs.list.outputs.count != '0'
+        env:
+          KEYS: ${{ needs.list.outputs.keys }}
+          PLUGINS: ${{ needs.list.outputs.matrix }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p reports
+          printf '%s' "$KEYS" > keys.json
+          printf '%s' "$PLUGINS" > selected.json
+          python3 -I scripts/watch.py update scan-state/state.json keys.json selected.json reports \
+            scan-state/state.json scan-state/reports
+
+      - name: Save state
+        if: inputs.repo == '' && needs.list.outputs.count != '0'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: scan-state
+          key: scan-state-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Build overview
+        shell: bash
+        env:
+          ALL: ${{ needs.list.outputs.plugins }}
+          PLUGINS: ${{ needs.list.outputs.matrix }}
+          SELECTION: ${{ needs.list.outputs.selection }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          printf '%s' "$ALL" > plugins.json
+          printf '%s' "$PLUGINS" > selected.json
+          python3 -I scripts/summary.py reports plugins.json summary.md baseline-candidates \
+            selected.json scan-state/reports
+          printf '\n%s\n' "$SELECTION" >> summary.md
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+          cp summary.md baseline-candidates/
+
+      - name: Upload baseline templates
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: baseline-candidates
+          path: baseline-candidates/
+          retention-days: 14

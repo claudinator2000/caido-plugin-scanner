@@ -1,0 +1,170 @@
+rules:
+  - id: caido-traffic-to-network
+    message: Proxy traffic/SDK data or env flows into a network sink (possible exfiltration)
+    severity: ERROR
+    languages: [javascript, typescript]
+    mode: taint
+    pattern-sources:
+      - patterns:
+          # All handler parameters (sdk, request, response, event data)
+          - pattern-either:
+              - pattern: $O.$ON(..., (..., $P, ...) => $B)
+              - pattern: $O.$ON(..., async (..., $P, ...) => $B)
+              - pattern: '$O.$ON(..., function (..., $P, ...) { ... })'
+              - pattern: '$O.$ON(..., async function (..., $P, ...) { ... })'
+          - metavariable-regex: { metavariable: $ON, regex: '^on[A-Z]\w*' }
+          - focus-metavariable: $P
+      - pattern: $SDK.requests.$M(...)
+      - pattern: $SDK.findings.$M(...)
+      - pattern: $SDK.env.$M(...)
+      - pattern: process.env
+    pattern-sinks:
+      - pattern: fetch(...)
+      - pattern: navigator.sendBeacon(...)
+      - patterns:
+          - pattern-inside: |
+              $W = new WebSocket(...);
+              ...
+          - pattern: $W.send(...)
+      - pattern: new Image().src = $X
+  - id: caido-backend-dangerous-module
+    message: Backend loads child_process/net – unnecessary for most plugins
+    severity: WARNING
+    languages: [javascript, typescript]
+    pattern-either:
+      - pattern: require("child_process")
+      - pattern: require("net")
+      - pattern: import("child_process")
+      - pattern: import("net")
+      - pattern: require("node:child_process")
+      - pattern: require("node:net")
+      - pattern: import $X from "child_process"
+      - pattern: import {...} from "child_process"
+      - pattern: import $X from "node:child_process"
+      - pattern: import {...} from "node:child_process"
+      - pattern: import $X from "net"
+      - pattern: import {...} from "net"
+  - id: caido-hardcoded-external-url
+    message: Hard-coded external URL – check against an allowlist
+    severity: INFO
+    languages: [javascript, typescript]
+    patterns:
+      - pattern: '"$URL"'
+      - metavariable-regex:
+          metavariable: $URL
+          regex: '^(https?|wss?)://(?!(localhost|127\.0\.0\.1|github\.com|api\.github\.com|caido\.io|[a-z0-9.-]*\.caido\.io)(/|:|$))'
+  # Second-order exfiltration: the plugin does not contact the host itself, it plants the
+  # URL in requests so the scanned target calls it
+  - id: caido-hardcoded-callback-url
+    message: Hard-coded external callback/OAST host – scanned targets are made to contact it
+    severity: WARNING
+    languages: [javascript, typescript]
+    patterns:
+      - pattern-either:
+          - pattern: $NAME = "$URL"
+          - pattern: $O.$NAME = "$URL"
+          - pattern: '{..., $NAME: "$URL", ...}'
+          - pattern: 'function $F(..., $NAME = "$URL", ...) { ... }'
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: '(?i).*(call_?back|webhook|hook_?url|oast|collab|interactsh|canary|exfil|beacon|pingback|catcher|spy)'
+      - metavariable-regex:
+          metavariable: $URL
+          regex: '(?i)^((https?|wss?)://)?(?!(localhost|127\.0\.0\.1|0\.0\.0\.0)(/|:|$))[a-z0-9-]+(\.[a-z0-9-]+)+(:\d+)?(/\S*)?$'
+  - id: caido-request-data-to-callback-url
+    message: Request data (host, URL, headers, body) is built into a callback/OAST URL – the target then sends it to that host
+    severity: ERROR
+    languages: [javascript, typescript]
+    mode: taint
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $R.host
+              - pattern: $R.url
+              - pattern: $R.headers
+              - pattern: $R.body
+              - pattern: $R.text()
+          - metavariable-regex: { metavariable: $R, regex: '(?i).*req' }
+      - patterns:
+          - pattern: $R.$GET(...)
+          - metavariable-regex: { metavariable: $R, regex: '(?i).*req' }
+          - metavariable-regex: { metavariable: $GET, regex: '^get[A-Z]\w*' }
+      - pattern: $SDK.requests.$M(...)
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: new URL($X, $CB)
+              - pattern: $CB + $X
+              - pattern: $CB.concat($X)
+          - metavariable-regex:
+              metavariable: $CB
+              regex: '(?i).*(call_?back|webhook|hook_?url|oast|collab|interactsh|canary|exfil|beacon|pingback|catcher|spy)'
+          - focus-metavariable: $X
+  # Secret as a query parameter ends up in server logs, proxy logs and histories: a
+  # secret-hygiene finding, not evidence of malware
+  - id: caido-secret-in-url
+    message: Secret (license key, token, password) as a URL parameter
+    severity: WARNING
+    languages: [javascript, typescript]
+    pattern-either:
+      - pattern-regex: '(?i)[?&](license_?key|api_?key|apikey|access_?token|auth_?token|token|secret|secret_?key|password|passwd|pwd|credentials?)=\$\{'
+      - pattern-regex: '(?i)[?&](license_?key|api_?key|apikey|access_?token|auth_?token|token|secret|secret_?key|password|passwd|pwd|credentials?)=["'']\s*\+'
+      - patterns:
+          - pattern-either:
+              - pattern: $U.searchParams.set($K, $V)
+              - pattern: $U.searchParams.append($K, $V)
+          - metavariable-regex:
+              metavariable: $K
+              regex: '(?i)^["''](license_?key|api_?key|apikey|access_?token|auth_?token|token|secret|secret_?key|password|passwd|pwd|credentials?)["'']$'
+      - patterns:
+          - pattern: 'new URLSearchParams({..., $K: $V, ...})'
+          - metavariable-regex:
+              metavariable: $K
+              regex: '(?i)^["'']?(license_?key|api_?key|apikey|access_?token|auth_?token|token|secret|secret_?key|password|passwd|pwd|credentials?)["'']?$'
+  # Download-to-execute: hardly any plugin needs to make a file executable, except to start
+  # a downloaded program
+  - id: caido-make-executable
+    message: File is made executable (chmod) – typical for downloaded programs
+    severity: WARNING
+    languages: [javascript, typescript]
+    pattern-either:
+      - pattern: chmod($P, $M, ...)
+      - pattern: chmodSync($P, $M, ...)
+      - patterns:
+          - pattern-either:
+              - pattern: $FS.chmod($P, $M, ...)
+              - pattern: $FS.chmodSync($P, $M, ...)
+          # Node fs under common names; not Emscripten file system emulations (e.g. Q.chmod)
+          - metavariable-regex:
+              metavariable: $FS
+              regex: '(?i)^(fs|fs\d+|fsp|promises|fs_promises|fsPromises|import_fs\d*|import_promises\d*|node_fs\d*)$'
+      - pattern: $FS.promises.chmod($P, $M, ...)
+  # Shell command from variable text: command injection or downloaded commands
+  - id: caido-dynamic-shell-command
+    message: Shell command from variable text (shell true, exec, execSync)
+    severity: WARNING
+    languages: [javascript, typescript]
+    pattern-either:
+      - patterns:
+          - pattern-either:
+              - pattern: '$SPAWN($CMD, ..., {..., shell: true, ...})'
+              - pattern: '$SPAWN($CMD, ..., {..., shell: !0, ...})'
+              - pattern: '$CP.$SPAWN($CMD, ..., {..., shell: true, ...})'
+              - pattern: '$CP.$SPAWN($CMD, ..., {..., shell: !0, ...})'
+          - metavariable-regex: { metavariable: $SPAWN, regex: '^(spawn|spawnSync|execFile|execFileSync)$' }
+          - pattern-not: '$F("...", ...)'
+          - pattern-not: '$C.$F("...", ...)'
+      - patterns:
+          - pattern-either:
+              - pattern: exec($CMD, ...)
+              - pattern: execSync($CMD, ...)
+          - pattern-not: '$F("...", ...)'
+      - patterns:
+          - pattern-either:
+              - pattern: $CP.exec($CMD, ...)
+              - pattern: $CP.execSync($CMD, ...)
+          # child_process under common names; not RegExp.prototype.exec
+          - metavariable-regex:
+              metavariable: $CP
+              regex: '(?i)^(cp|child_process|childProcess|import_child_process\d*|child_process\d*)$'
+          - pattern-not: '$C.$F("...", ...)'

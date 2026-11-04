@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+      include:
+        - "*"
+    open-pull-requests-limit: 5
+    groups:
+      actions-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+  - package-ecosystem: npm
+    directory: /scripts/js-split
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+      include:
+        - "*"
+    open-pull-requests-limit: 5

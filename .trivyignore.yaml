@@ -1,0 +1,4 @@
+# Keep exceptions narrow and temporary. Every entry requires a reason, a
+# tracking owner or issue, and an expiration date.
+vulnerabilities: []
+misconfigurations: []

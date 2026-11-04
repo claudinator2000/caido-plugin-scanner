@@ -1,0 +1,3 @@
+# Trusted OSV-Scanner configuration for all scans (scripts/osv-scan.sh).
+# Contains no exceptions. Exceptions belong in baselines/<id>.json, with reason,
+# owner and review date.

@@ -1,0 +1,2 @@
+# Repos outside the store: "owner/repo" or "id owner/repo"
+# example-user/caido-my-plugin
