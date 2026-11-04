@@ -1,0 +1,28 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "39852d882df0bc5b",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "resurface-backend/index.js:1249"
+  },
+  {
+   "fingerprint": "6ed304f903eef55c",
+   "reason": "Placeholder URL in the webhook settings dialog.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-exfiltration",
+   "where": "resurface-frontend/index.js:20233"
+  },
+  {
+   "fingerprint": "adf10b6916f9e035",
+   "reason": "Placeholder URL in the webhook settings dialog.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "resurface-frontend/index.js:20233"
+  }
+ ]
+}

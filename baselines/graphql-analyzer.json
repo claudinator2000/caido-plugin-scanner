@@ -1,0 +1,20 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "09471bbff1b17672",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:1252"
+  },
+  {
+   "fingerprint": "e0809f5b5f19ef38",
+   "reason": "Decodes gzip/Base64 exports of the plugin's own schema data.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:33620"
+  }
+ ]
+}

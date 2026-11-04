@@ -1,0 +1,28 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "ff645e2899600472",
+   "reason": "Reads content type and image data of a response for the image preview (Base64/header bytes).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:14"
+  },
+  {
+   "fingerprint": "34b2cd470848f848",
+   "reason": "Reads content type and image data of a response for the image preview (Base64/header bytes).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:17"
+  },
+  {
+   "fingerprint": "00e0337f8a87d14c",
+   "reason": "Reads content type and image data of a response for the image preview (Base64/header bytes).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:53"
+  }
+ ]
+}

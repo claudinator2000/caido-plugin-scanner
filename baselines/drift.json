@@ -1,0 +1,60 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "b16cd67e1cfa7d20",
+   "reason": "`os.platform()` for the platform diagnostics of the CLI providers.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-system-info",
+   "where": "backend/index.js:2521"
+  },
+  {
+   "fingerprint": "15e54ff9dab1b090",
+   "reason": "Install command of the Claude CLI only in a hint text (`getProviderInstallHint`), not executed.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-download-exec",
+   "where": "backend/index.js:43"
+  },
+  {
+   "fingerprint": "5cdb909a3e15c2cb",
+   "reason": "Unicode tables in libraries (markdown-it regexes, HTML entity table, CodeMirror bidi table, Ace editor); no obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation",
+   "where": "frontend/index.js:13212"
+  },
+  {
+   "fingerprint": "2ca08bb1f0b9fcaf",
+   "reason": "HTML entity decoding table (library entities); no homoglyph obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-unicode",
+   "where": "frontend/index.js:13222"
+  },
+  {
+   "fingerprint": "006f1118c0c316fd",
+   "reason": "`RegExp.prototype.exec` in the syntax highlighter, no process start.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-download-exec",
+   "where": "frontend/index.js:17245"
+  },
+  {
+   "fingerprint": "5b066f6c255ca94c",
+   "reason": "False positive: function names in the syntax highlighter or help text for the diagnostic report.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-keylogging",
+   "where": "frontend/index.js:40596"
+  },
+  {
+   "fingerprint": "d890a61d4c39d84f",
+   "reason": "False positive: function names in the syntax highlighter or help text for the diagnostic report.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-keylogging",
+   "where": "frontend/index.js:72311"
+  }
+ ]
+}

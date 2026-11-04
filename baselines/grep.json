@@ -1,0 +1,52 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "c28b646b52fe6f7c",
+   "reason": "Checks JWT headers (`atob` + JSON.parse) when detecting tokens; no execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-base64exec",
+   "where": "backend/index.js:1395"
+  },
+  {
+   "fingerprint": "ec83c080b50fb34c",
+   "reason": "`globalThis[Symbol.for(\"@vercel/request-context\")]` from the Vercel/AI SDK; not a hidden API call.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-dynamic-global-access",
+   "where": "frontend/index.js:31320"
+  },
+  {
+   "fingerprint": "004fcaa0bd7bb55b",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:42847"
+  },
+  {
+   "fingerprint": "a7f3a90f3e62f4d9",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:42847"
+  },
+  {
+   "fingerprint": "6c0e46bdc5605933",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:42848"
+  },
+  {
+   "fingerprint": "f9c796d7b90efd0c",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:42848"
+  }
+ ]
+}

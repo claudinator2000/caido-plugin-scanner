@@ -1,0 +1,28 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "d2ae8fe34b7f2196",
+   "reason": "`globalThis[Symbol.for(\"@vercel/request-context\")]` from the Vercel/AI SDK; not a hidden API call.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-dynamic-global-access",
+   "where": "frontend/index.js:21102"
+  },
+  {
+   "fingerprint": "678f63067895daf4",
+   "reason": "HTML entity decoding table (library entities); no homoglyph obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-unicode",
+   "where": "frontend/index.js:32279"
+  },
+  {
+   "fingerprint": "78c8977e65dabe9a",
+   "reason": "Base64 decoding (`atob` → Uint8Array) for display/download/parsing; no code or URL is built from it.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:35707"
+  }
+ ]
+}

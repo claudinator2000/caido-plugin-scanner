@@ -1,0 +1,20 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "30c8b9c6e18c1a2a",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:1271"
+  },
+  {
+   "fingerprint": "11333789085ba2e1",
+   "reason": "`/etc/passwd` as a test payload, sample text or WAF pattern of the pentest plugin; no file access.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-filesystem-read",
+   "where": "backend/index.js:17626"
+  }
+ ]
+}

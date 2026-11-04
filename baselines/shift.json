@@ -1,0 +1,44 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "00d3f0807ce0fb18",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:1249"
+  },
+  {
+   "fingerprint": "7a7606a188f936fc",
+   "reason": "`/etc/passwd` as a test payload, sample text or WAF pattern of the pentest plugin; no file access.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-filesystem-read",
+   "where": "backend/index.js:14646"
+  },
+  {
+   "fingerprint": "4bbcc01c011a364b",
+   "reason": "`globalThis[Symbol.for(\"@vercel/request-context\")]` from the Vercel/AI SDK; not a hidden API call.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-dynamic-global-access",
+   "where": "frontend/index.js:38314"
+  },
+  {
+   "fingerprint": "cc777663bd1f9b09",
+   "reason": "Unicode tables in libraries (markdown-it regexes, HTML entity table, CodeMirror bidi table, Ace editor); no obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation",
+   "where": "frontend/index.js:58376"
+  },
+  {
+   "fingerprint": "b2bbfc0b3a3aab44",
+   "reason": "HTML entity decoding table (library entities); no homoglyph obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-unicode",
+   "where": "frontend/index.js:58386"
+  }
+ ]
+}

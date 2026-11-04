@@ -1,0 +1,12 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "18d24469d71f7405",
+   "reason": "`/etc/passwd` as a test payload, sample text or WAF pattern of the pentest plugin; no file access.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-filesystem-read",
+   "where": "frontend/index.js:21376"
+  }
+ ]
+}

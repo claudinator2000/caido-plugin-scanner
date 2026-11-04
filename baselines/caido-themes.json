@@ -1,0 +1,12 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "dd86615412969661",
+   "reason": "lodash polyfill `Function(\"return this\")()` to determine globalThis.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-dynamic-code-exec",
+   "where": "frontend/script.js:19357"
+  }
+ ]
+}

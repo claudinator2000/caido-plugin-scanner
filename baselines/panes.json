@@ -1,0 +1,44 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "a0f0f88667a72ada",
+   "reason": "SQL tokenizer of the editor (keyword table).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "panes-frontend/index.js:30886"
+  },
+  {
+   "fingerprint": "118d45af4e15f862",
+   "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-03",
+   "rule": "obf-decode-into-call",
+   "where": "panes-frontend/index.js:16580"
+  },
+  {
+   "fingerprint": "24a99c21d7839bb4",
+   "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-03",
+   "rule": "obf-decode-into-call",
+   "where": "panes-frontend/index.js:16580"
+  },
+  {
+   "fingerprint": "a70673cd48d61a41",
+   "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-03",
+   "rule": "obf-decode-into-call",
+   "where": "panes-frontend/index.js:16579"
+  },
+  {
+   "fingerprint": "bcb46e2e60d53eb0",
+   "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-03",
+   "rule": "obf-decode-into-call",
+   "where": "panes-frontend/index.js:16579"
+  }
+ ]
+}

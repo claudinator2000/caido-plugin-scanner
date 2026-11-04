@@ -1,0 +1,28 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "0cc31944c5154fa9",
+   "reason": "Polyfill from the npm package function-bind in workflow code (Function(\"binder\", \"return function (\" + args + \"){ return binder.apply(this,arguments); }\")): only creates a wrapper with a fixed signature, no untrusted data.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-03",
+   "rule": "obf-dynamic-code-exec",
+   "where": "__workflow_code__/backend/assets/json-to-form-data/definition.json/node-2.js:540"
+  },
+  {
+   "fingerprint": "0eb96e689f04151b",
+   "reason": "Polyfill from the npm package function-bind in workflow code (Function(\"binder\", \"return function (\" + args + \"){ return binder.apply(this,arguments); }\")): only creates a wrapper with a fixed signature, no untrusted data.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-03",
+   "rule": "obf-dynamic-code-exec",
+   "where": "__workflow_code__/backend/assets/form-data-to-json/definition.json/node-2.js:540"
+  },
+  {
+   "fingerprint": "8fffe197de7a818c",
+   "reason": "HTML entity table from sax/xml-js in workflow code (String.fromCharCode for entity codes such as hearts: 9829); pure character conversion, no network, no code execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-03",
+   "rule": "obf-decode-into-call",
+   "where": "__workflow_code__/backend/assets/json-to-xml/definition.json/node-2.js:210"
+  }
+ ]
+}

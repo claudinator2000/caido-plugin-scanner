@@ -1,0 +1,20 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "ed85412fd2a65540",
+   "reason": "Base64url decoding of JWT parts, the purpose of the plugin.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:29003"
+  },
+  {
+   "fingerprint": "744e22dff6f6cb1d",
+   "reason": "Base64url decoding of JWT parts, the purpose of the plugin.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:29008"
+  }
+ ]
+}

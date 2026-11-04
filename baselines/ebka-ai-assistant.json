@@ -1,0 +1,12 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "31427c283cd7b95e",
+   "reason": "`self[Symbol.asyncIterator]` in the stream code of the OpenAI SDK.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-dynamic-global-access",
+   "where": "ebka-backend/index.js:9135"
+  }
+ ]
+}

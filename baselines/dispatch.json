@@ -1,0 +1,20 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "70327ebbeb72e869",
+   "reason": "`sdk.requests.get` reads the Caido history, not a download.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-download-exec",
+   "where": "backend/script.js:1430"
+  },
+  {
+   "fingerprint": "fe353e6a8ce0ee5c",
+   "reason": "`exec()` probe of the SQLite query API, no process start.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-download-exec",
+   "where": "backend/script.js:300"
+  }
+ ]
+}

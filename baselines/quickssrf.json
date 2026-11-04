@@ -1,0 +1,12 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "af30e7de4239d766",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "quickssrf-backend/index.js:1252"
+  }
+ ]
+}

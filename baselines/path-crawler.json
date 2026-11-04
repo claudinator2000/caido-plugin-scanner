@@ -1,0 +1,12 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "ed1a4febd65055b9",
+   "reason": "Domain list of storage providers for URL classification.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "backend/index.js:161"
+  }
+ ]
+}

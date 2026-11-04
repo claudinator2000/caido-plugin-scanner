@@ -1,0 +1,28 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "bf439bade3e1787f",
+   "reason": "Reads a response from the Caido history (Base64) and looks up line/column for the source view.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "domloggerpp-backend/index.js:443"
+  },
+  {
+   "fingerprint": "0c018c48f4d6b02d",
+   "reason": "False positive in a Base64 blob or a CSP `nonce` in PrimeVue.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-cryptomining",
+   "where": "domloggerpp-frontend/index.js:33467"
+  },
+  {
+   "fingerprint": "ef6bc119fcee765a",
+   "reason": "False positive in a Base64 blob or a CSP `nonce` in PrimeVue.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-cryptomining",
+   "where": "domloggerpp-frontend/index.js:8537"
+  }
+ ]
+}

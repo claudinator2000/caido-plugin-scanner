@@ -24,4 +24,5 @@ SEMGREP_VERSION=1.182.1 python3 -I -m unittest discover -s tests
 scripts/install-osv-scanner.sh /tmp/osv-scanner && SEMGREP_VERSION=1.182.1 tests/test_evasion.sh /tmp/osv-scanner
 ```
 
-This repository ships no baselines; do not add accepted findings for store plugins here.
+Baselines here accept clear false positives only (library code, data, feature tests). Never
+accept behaviour a plugin has by design, however reasonable; that stays red.

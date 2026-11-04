@@ -1,0 +1,44 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "165f1d1b0330d065",
+   "reason": "List of known JSONP endpoints as CSP bypass payloads (pure data, no calls).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "csp-auditor-backend/index.js:1002"
+  },
+  {
+   "fingerprint": "8ce8decebf5e2886",
+   "reason": "List of known JSONP endpoints as CSP bypass payloads (pure data, no calls).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "csp-auditor-backend/index.js:1003"
+  },
+  {
+   "fingerprint": "facf3ddfcbfcbfc7",
+   "reason": "List of known JSONP endpoints as CSP bypass payloads (pure data, no calls).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "csp-auditor-backend/index.js:547"
+  },
+  {
+   "fingerprint": "77becf22b3df19ce",
+   "reason": "List of known JSONP endpoints as CSP bypass payloads (pure data, no calls).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "csp-auditor-backend/index.js:549"
+  },
+  {
+   "fingerprint": "b98794132a792817",
+   "reason": "List of known JSONP endpoints as CSP bypass payloads (pure data, no calls).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-network-exfiltration",
+   "where": "csp-auditor-backend/index.js:655"
+  }
+ ]
+}
