@@ -16,7 +16,8 @@ on:
         required: false
   schedule:
     - cron: '17 5 * * *'
-    - cron: '13,43 * * * *'
+    - cron: '13 * * * *'
+    - cron: '43 * * * *'
   push:
     branches:
       - main
