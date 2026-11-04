@@ -33,14 +33,6 @@
    "where": "backend/index.js:2606"
   },
   {
-   "fingerprint": "13d8c510c2e1ad3c",
-   "reason": "`process.env.LOG_TOKENS`: debug switch of the YAML library.",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "threat-runtime-environment-read",
-   "where": "backend/index.js:6417"
-  },
-  {
    "fingerprint": "1c87026d8f8dbbb4",
    "reason": "`globalThis[Symbol.for(\"@vercel/request-context\")]` from the Vercel/AI SDK; not a hidden API call.",
    "owner": "claudinator2000",
@@ -79,14 +71,6 @@
    "review_by": "2027-05-02",
    "rule": "threat-runtime-obfuscation",
    "where": "frontend/index.js:46884"
-  },
-  {
-   "fingerprint": "25bacac126f9a87d",
-   "reason": "lodash polyfill `Function(\"return this\")()` to determine globalThis.",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "obf-dynamic-code-exec",
-   "where": "frontend/index.js:50800"
   },
   {
    "fingerprint": "4b9132b747c0318c",

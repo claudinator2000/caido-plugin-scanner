@@ -24,5 +24,7 @@ SEMGREP_VERSION=1.182.1 python3 -I -m unittest discover -s tests
 scripts/install-osv-scanner.sh /tmp/osv-scanner && SEMGREP_VERSION=1.182.1 tests/test_evasion.sh /tmp/osv-scanner
 ```
 
-Baselines here accept clear false positives only (library code, data, feature tests). Never
-accept behaviour a plugin has by design, however reasonable; that stays red.
+Baselines here accept clear false positives only: the behaviour the rule looks for does not
+happen at all (the match is data, text, a different API, or a decode whose result never
+becomes code or a URL). If the behaviour happens, it stays red, even when it is harmless
+library code or a plugin feature.

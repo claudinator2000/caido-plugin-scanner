@@ -1,14 +1,6 @@
 {
  "accepted": [
   {
-   "fingerprint": "29e41dff7c19c64a",
-   "reason": "node-forge replaces `console` without a logger (library code).",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "threat-runtime-obfuscation-log-suppress",
-   "where": "backend/index.js:16703"
-  },
-  {
    "fingerprint": "814571be7239a9bb",
    "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
    "owner": "claudinator2000",
@@ -23,14 +15,6 @@
    "review_by": "2027-05-02",
    "rule": "threat-runtime-obfuscation",
    "where": "backend/index.js:22765"
-  },
-  {
-   "fingerprint": "32ee1abd10026784",
-   "reason": "node-forge collects entropy from the string properties of `navigator`.",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "obf-dynamic-global-access",
-   "where": "backend/index.js:5003"
   },
   {
    "fingerprint": "523b5463fdbb7c27",

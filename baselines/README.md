@@ -1,8 +1,9 @@
 # Baselines
 
 One file per plugin, `<plugin-id>.json`, listing reviewed findings that no longer block.
-This repository accepts clear false positives only (library code, data, feature tests).
-Behaviour a plugin has by design stays red here; accept it in your own private copy if
+This repository accepts clear false positives only: the behaviour the rule looks for does not
+happen at all (the match is data, text or a different API). Behaviour that does happen stays
+red here, even when it is harmless; accept it in your own private copy if
 you want (see the main README).
 
 ```json

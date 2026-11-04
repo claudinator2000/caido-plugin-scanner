@@ -1,14 +1,6 @@
 {
  "accepted": [
   {
-   "fingerprint": "c04f7374712c2659",
-   "reason": "lodash polyfill `Function(\"return this\")()` to determine globalThis.",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "obf-dynamic-code-exec",
-   "where": "screenshot-mode-frontend/index.js:26433"
-  },
-  {
    "fingerprint": "d0fe027786152b18",
    "reason": "Base64 decoding (`atob` → Uint8Array) for display/download/parsing; no code or URL is built from it.",
    "owner": "claudinator2000",

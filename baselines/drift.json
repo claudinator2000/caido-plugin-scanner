@@ -1,14 +1,6 @@
 {
  "accepted": [
   {
-   "fingerprint": "b16cd67e1cfa7d20",
-   "reason": "`os.platform()` for the platform diagnostics of the CLI providers.",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "threat-runtime-system-info",
-   "where": "backend/index.js:2521"
-  },
-  {
    "fingerprint": "15e54ff9dab1b090",
    "reason": "Install command of the Claude CLI only in a hint text (`getProviderInstallHint`), not executed.",
    "owner": "claudinator2000",

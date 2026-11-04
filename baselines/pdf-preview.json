@@ -15,22 +15,6 @@
    "review_by": "2027-05-02",
    "rule": "threat-runtime-obfuscation-base64exec",
    "where": "frontend/index.js:1655"
-  },
-  {
-   "fingerprint": "bc7e74c52d167b7a",
-   "reason": "pdf.js checks with `new Function(\"\")` whether eval is allowed (feature test).",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "obf-dynamic-code-exec",
-   "where": "frontend/index.js:548"
-  },
-  {
-   "fingerprint": "426be834a8750976",
-   "reason": "pdf.js loads its worker via `import(this.workerSrc)` from its own package.",
-   "owner": "claudinator2000",
-   "review_by": "2027-05-02",
-   "rule": "obf-dynamic-require-import",
-   "where": "frontend/index.js:8102"
   }
  ]
 }
