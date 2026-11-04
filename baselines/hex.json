@@ -1,0 +1,20 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "3023535a9d2b8b1d",
+   "reason": "Hex view converts bytes into representations (Base64, URL-encoded), the purpose of the plugin.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:471"
+  },
+  {
+   "fingerprint": "687ca085468201ab",
+   "reason": "Hex view converts bytes into representations (Base64, URL-encoded), the purpose of the plugin.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:472"
+  }
+ ]
+}

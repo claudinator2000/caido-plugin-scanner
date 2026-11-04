@@ -1,0 +1,28 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "49bf89378f1cd242",
+   "reason": "Belarusian translations of the validation library zod (Cyrillic strings).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation",
+   "where": "backend/index.js:13139"
+  },
+  {
+   "fingerprint": "59adc211095d5cec",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-base64exec",
+   "where": "backend/index.js:8725"
+  },
+  {
+   "fingerprint": "944b65bf2318c92b",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:8735"
+  }
+ ]
+}

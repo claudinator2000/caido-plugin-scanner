@@ -1,0 +1,36 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "af7dd4591fe83603",
+   "reason": "`/etc/passwd` as a test payload, sample text or WAF pattern of the pentest plugin; no file access.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-filesystem-read",
+   "where": "backend/index.js:18887"
+  },
+  {
+   "fingerprint": "74da22b17bb5a305",
+   "reason": "False positive: text of a finding description or the zod code generator.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-keylogging",
+   "where": "backend/index.js:28155"
+  },
+  {
+   "fingerprint": "0f85208a2cef0f56",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:5437"
+  },
+  {
+   "fingerprint": "8c721ed3ccacaec0",
+   "reason": "False positive: text of a finding description or the zod code generator.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-keylogging",
+   "where": "backend/index.js:7221"
+  }
+ ]
+}

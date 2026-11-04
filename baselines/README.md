@@ -1,8 +1,10 @@
 # Baselines
 
-One file per plugin, `<plugin-id>.json`, listing the findings you reviewed and accepted.
-This public repository ships none: acceptance is a judgement call, so keep your baselines
-in your own private copy (see the main README).
+One file per plugin, `<plugin-id>.json`, listing reviewed findings that no longer block.
+This repository accepts clear false positives only: the behaviour the rule looks for does not
+happen at all (the match is data, text or a different API). Behaviour that does happen stays
+red here, even when it is harmless; accept it in your own private copy if
+you want (see the main README).
 
 ```json
 {"accepted": [

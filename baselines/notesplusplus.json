@@ -1,0 +1,52 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "e06e2bad7e9b9b52",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:23694"
+  },
+  {
+   "fingerprint": "e7e72adac43f1b8b",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:23694"
+  },
+  {
+   "fingerprint": "2e6ead68658ad7b9",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:23695"
+  },
+  {
+   "fingerprint": "93eb9a068daf677b",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:23695"
+  },
+  {
+   "fingerprint": "8813551ca2532a67",
+   "reason": "Unicode tables in libraries (markdown-it regexes, HTML entity table, CodeMirror bidi table, Ace editor); no obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation",
+   "where": "frontend/index.js:39533"
+  },
+  {
+   "fingerprint": "49da47abd9b4c662",
+   "reason": "HTML entity decoding table (library entities); no homoglyph obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-unicode",
+   "where": "frontend/index.js:53148"
+  }
+ ]
+}

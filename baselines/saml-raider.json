@@ -1,0 +1,36 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "814571be7239a9bb",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:19322"
+  },
+  {
+   "fingerprint": "bf9a7d3af63ce814",
+   "reason": "Belarusian translations of the validation library zod (Cyrillic strings).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation",
+   "where": "backend/index.js:22765"
+  },
+  {
+   "fingerprint": "523b5463fdbb7c27",
+   "reason": "node-forge `util.hexToBytes`.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:855"
+  },
+  {
+   "fingerprint": "982550b674baaaee",
+   "reason": "`/etc/passwd` as a test payload, sample text or WAF pattern of the pentest plugin; no file access.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-filesystem-read",
+   "where": "frontend/index.js:11607"
+  }
+ ]
+}

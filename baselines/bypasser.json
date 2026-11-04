@@ -1,0 +1,84 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "183569b9b803e169",
+   "reason": "Binary tag of the YAML library: `atob` for Base64 data, no execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-base64exec",
+   "where": "backend/index.js:2576"
+  },
+  {
+   "fingerprint": "9a64ada4bc35d0bc",
+   "reason": "Binary tag of the YAML library (reading/writing Base64).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:2579"
+  },
+  {
+   "fingerprint": "09805005ac742b5f",
+   "reason": "Binary tag of the YAML library (reading/writing Base64).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:2594"
+  },
+  {
+   "fingerprint": "3dc8a1126b4ac1cf",
+   "reason": "Binary tag of the YAML library (reading/writing Base64).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:2606"
+  },
+  {
+   "fingerprint": "1c87026d8f8dbbb4",
+   "reason": "`globalThis[Symbol.for(\"@vercel/request-context\")]` from the Vercel/AI SDK; not a hidden API call.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-dynamic-global-access",
+   "where": "frontend/index.js:30644"
+  },
+  {
+   "fingerprint": "487bee5d0dfe5a2c",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:38061"
+  },
+  {
+   "fingerprint": "8a0cc24d258e0e1e",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:38061"
+  },
+  {
+   "fingerprint": "ab28b2f3208906f0",
+   "reason": "Key code table of the editor (CodeMirror/Ace): `String.fromCharCode` for key names.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:38073"
+  },
+  {
+   "fingerprint": "411c72cdaf9f6d52",
+   "reason": "Unicode tables in libraries (markdown-it regexes, HTML entity table, CodeMirror bidi table, Ace editor); no obfuscation.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation",
+   "where": "frontend/index.js:46884"
+  },
+  {
+   "fingerprint": "4b9132b747c0318c",
+   "reason": "diff-match-patch (line-to-character encoding in the diff algorithm).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "frontend/index.js:51396"
+  }
+ ]
+}

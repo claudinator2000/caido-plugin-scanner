@@ -1,0 +1,52 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "68a8b397bdf25df3",
+   "reason": "Regex list of XSS sinks (`eval(`) in the analysis tool; no execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-download-exec",
+   "where": "backend/index.js:19616"
+  },
+  {
+   "fingerprint": "f69191abcf350f65",
+   "reason": "Regex list of XSS sinks (`eval(`) in the analysis tool; no execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-base64exec",
+   "where": "backend/index.js:19616"
+  },
+  {
+   "fingerprint": "a62cb40f4d985790",
+   "reason": "Regex list of XSS sinks (`eval(`) in the analysis tool; no execution.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation-steganography",
+   "where": "backend/index.js:19616"
+  },
+  {
+   "fingerprint": "33907e812c29d2f6",
+   "reason": "`sdk.requests.get` reads the Caido history, not a download.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-download-exec",
+   "where": "backend/index.js:20480"
+  },
+  {
+   "fingerprint": "4773f4ae7044923a",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "backend/index.js:5691"
+  },
+  {
+   "fingerprint": "a066c1799c727f68",
+   "reason": "Belarusian translations of the validation library zod (Cyrillic strings).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-runtime-obfuscation",
+   "where": "backend/index.js:9004"
+  }
+ ]
+}

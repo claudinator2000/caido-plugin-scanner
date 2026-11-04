@@ -1,0 +1,12 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "97baad36de04ee4e",
+   "reason": "`base64ToUint8Array` helper of a shared library (byte-identical in 13 store plugins).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "race-backend/index.js:1249"
+  }
+ ]
+}

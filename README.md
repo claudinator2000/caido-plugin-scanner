@@ -31,8 +31,9 @@ legitimate plugins come from bundled libraries or from what the plugin is meant 
 such as running a command you configured. Expand a row to see the code, a link to the
 source line and what the rule looks for.
 
-This repository makes no judgement about individual plugins: it ships no accepted
-findings, so everything a rule matches stays red.
+Accepted findings in this repository are limited to clear false positives, where the
+behaviour a rule looks for does not happen at all, for example a rule matching plain data
+or a lookup table. Anything that does happen stays red, even when it looks harmless.
 
 If you think you found a malicious plugin, tell the Caido team and the maintainer
 privately rather than in a public issue.

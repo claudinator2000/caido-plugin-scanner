@@ -1,0 +1,28 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "0bee9b4aeb35f532",
+   "reason": "Base64 decoding (`atob` → Uint8Array) for display/download/parsing; no code or URL is built from it.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "obf-decode-into-call",
+   "where": "jq-frontend/assets/jq.worker.js:1"
+  },
+  {
+   "fingerprint": "e7f8f8a4d6e7d97d",
+   "reason": "Emscripten file system in the jq WASM worker (virtual, in memory).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-filesystem-destruction",
+   "where": "jq-frontend/assets/jq.worker.js:2"
+  },
+  {
+   "fingerprint": "19de034e04d95e69",
+   "reason": "False positive in a Base64 blob (WASM data).",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-02",
+   "rule": "threat-process-cryptomining",
+   "where": "jq-frontend/assets/jq.worker.js:2"
+  }
+ ]
+}
