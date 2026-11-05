@@ -26,6 +26,6 @@ scripts/install-osv-scanner.sh /tmp/osv-scanner && SEMGREP_VERSION=1.182.1 tests
 
 Baseline entries default to `false-positive`: only when the behaviour the rule looks for does
 not happen at all (the match is data, text, a different API, or a decode whose result never
-becomes code or a URL). Real behaviour is accepted only as `risk-accepted` with a `basis`, and
+becomes code or a URL). Real behaviour is accepted only as `risk-accepted`, and
 only as the repository owner's explicit decision on that single finding; never add such an
 entry on your own judgement.

@@ -263,13 +263,13 @@ class SummaryTest(unittest.TestCase):
             f = self.reports / f"report-{pid}" / "report.json"
             rep = json.loads(f.read_text())
             rep["accepted"] = {"f1": dict(finding("caido-make-executable"), reason="<b>x</b>", owner="me",
-                                          review_by="2027-05-01", kind=kind,
-                                          basis="trusted-maintainer" if kind == "risk-accepted" else None)}
+                                          review_by="2027-05-01", kind=kind)}
             f.write_text(json.dumps(rep))
         md = self.run_summary()
         self.assertIn("🟡 risk accepted", self.row(md, "risky"))
         self.assertIn("1 accepted (1 risk accepted)", md)
-        self.assertIn("Risk accepted: the maintainer is trusted", md)
+        self.assertIn("<i>Risk accepted</i>", md)
+        self.assertIn("&lt;b&gt;x&lt;/b&gt;", md)
         self.assertIn("🟢 ok", self.row(md, "fp"))
         self.assertIn("1 with accepted risks", md)
         table = md[md.index("<table>"):]

@@ -323,21 +323,12 @@ def code_block(v):
     return ""
 
 
-BASIS_LABELS = {"plugin-purpose": "it is what the plugin is for",
-                "trusted-maintainer": "the maintainer is trusted",
-                "hard-to-exploit": "exploiting it needs specific conditions",
-                "third-party-service": "the risk lies with a service the plugin depends on",
-                "other": "see reason"}
-
-
 def risk_accepted(rep):
     return [v for v in (rep.get("accepted") or {}).values() if v.get("kind") == "risk-accepted"]
 
 
 def accepted_label(v):
-    if v.get("kind") != "risk-accepted":
-        return "False positive"
-    return f"Risk accepted: {esc(BASIS_LABELS.get(v.get('basis'), v.get('basis')))}"
+    return "Risk accepted" if v.get("kind") == "risk-accepted" else "False positive"
 
 
 def accepted_block(rep, detailed):
@@ -453,7 +444,7 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
         "A run fails only on new findings: a finding seen before for the same plugin version "
         "stays blocked here (🔴 open) but no longer causes a red run or an email. An update "
         "of the plugin reports all its findings again. 🟡 risk accepted: no open findings, but "
-        "real behaviour the baseline owner accepted for a stated basis.",
+        "real behaviour the baseline owner accepted, with the reason shown.",
         "",
         "Baseline templates of the plugins scanned in this run: artifact `baseline-candidates` "
         "(one file per plugin). Raw data per plugin: artifact `report-<id>` of the respective run.",

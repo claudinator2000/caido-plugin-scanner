@@ -214,20 +214,17 @@ class FindingsTest(unittest.TestCase):
         self.assertEqual(rc, 1)
         self.assertTrue(all("expired" in p["problem"] for p in rep2["baseline_problems"]))
 
-    def test_risk_accepted_entry_suppresses_with_basis(self):
+    def test_risk_accepted_entry_suppresses(self):
         _, rep = self.run_gate([self.warning()])
-        rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], kind="risk-accepted",
-                                                                  basis="plugin-purpose"))
+        rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], kind="risk-accepted"))
         self.assertEqual(rc, 0)
-        self.assertEqual({(v["kind"], v["basis"]) for v in rep2["accepted"].values()},
-                         {("risk-accepted", "plugin-purpose")})
+        self.assertEqual({v["kind"] for v in rep2["accepted"].values()}, {"risk-accepted"})
 
-    def test_risk_accepted_without_valid_basis_does_not_suppress(self):
+    def test_unknown_kind_does_not_suppress(self):
         _, rep = self.run_gate([self.warning()])
-        for fields in ({"kind": "risk-accepted"}, {"kind": "risk-accepted", "basis": "because"},
-                       {"kind": "fine"}):
-            with self.subTest(fields=fields):
-                rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], **fields))
+        for kind in ("fine", "Risk-Accepted", ""):
+            with self.subTest(kind=kind):
+                rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], kind=kind))
                 self.assertEqual(rc, 1)
                 self.assertTrue(rep2["baseline_problems"])
 
