@@ -26,8 +26,7 @@ Open the newest run and scroll to the table.
 | Status | Meaning |
 |---|---|
 | 🟢 ok | Nothing that needs a look. |
-| 🔴 new | Findings that need a human look, first seen in this run. |
-| 🔴 open | Findings that still need a human look, seen before; the plugin has not changed since. |
+| 🔴 open | Findings that need a human look. Those reported for the first time are marked "new in this run"; only they make the run fail. |
 | 🟡 tolerated | Real behaviour that I reviewed and accept for my own use, with the reason shown. |
 | ⚪ no report | The scan did not finish: download, signature or package check failed. See the job log. |
 

@@ -81,17 +81,27 @@ class SummaryTest(unittest.TestCase):
         md = self.run_summary(selected=["broken"])
         self.assertIn("⚪ no report</td><td>this run", self.row(md, "broken"))
 
-    def test_known_findings_in_fresh_report_are_open_not_new(self):
+    def test_one_red_status_with_new_findings_marked(self):
         self.add("p", blocking=[finding("x"), finding("y")])
         rep_file = self.reports / "report-p" / "report.json"
         rep = json.loads(rep_file.read_text())
         rep["known_blocking"] = ["b0", "b1"]
         rep_file.write_text(json.dumps(rep))
-        md = self.run_summary(selected=["p"])
-        self.assertIn("🔴 open", self.row(md, "p"))
+        row = self.row(self.run_summary(selected=["p"]), "p")
+        self.assertIn("🔴 open", row)
+        self.assertNotIn("new in this run", row)
         rep["known_blocking"] = ["b0"]
         rep_file.write_text(json.dumps(rep))
-        self.assertIn("🔴 new", self.row(self.run_summary(selected=["p"]), "p"))
+        row = self.row(self.run_summary(selected=["p"]), "p")
+        self.assertIn("🔴 open", row)
+        self.assertIn("<b>2 blocking</b> (1 new in this run)", row)
+
+    def test_cached_report_never_marks_findings_new(self):
+        self.plugins.append({"id": "old", "repo": "owner/old", "store": True})
+        self.cache("old", blocking=[finding("x")], known=[])
+        row = self.row(self.run_summary(selected=[]), "old")
+        self.assertIn("🔴 open", row)
+        self.assertNotIn("new in this run", row)
 
     def test_cached_run_url_must_be_an_actions_run(self):
         self.plugins.append({"id": "old", "repo": "owner/old", "store": True})
@@ -252,10 +262,11 @@ class SummaryTest(unittest.TestCase):
                                       owner="me", review_by="2027-05-01")}
         rep_file.write_text(json.dumps(rep))
         md = self.run_summary()
-        self.assertIn("1 accepted", md)
+        self.assertIn("<summary>1 false positive</summary>", md)
         self.assertIn("Download from &lt;torproject.org&gt;", md)
         self.assertIn("2027-05-01", md)
-        self.assertIn("<td>0</td><td>1</td><td>0</td><td>0</td>", self.row(md, "p"))
+        # Blocking, tolerated, false positives, info, baseline problems
+        self.assertIn("<td>0</td><td>0</td><td>1</td><td>0</td><td>0</td>", self.row(md, "p"))
 
     def test_tolerated_plugin_is_yellow(self):
         self.add("risky"); self.add("clean"); self.add("fp")
@@ -267,8 +278,9 @@ class SummaryTest(unittest.TestCase):
             f.write_text(json.dumps(rep))
         md = self.run_summary()
         self.assertIn("🟡 tolerated", self.row(md, "risky"))
-        self.assertIn("1 accepted (1 tolerated)", md)
-        self.assertIn("<i>Tolerated</i>", md)
+        self.assertIn("<summary>1 tolerated</summary>", self.row(md, "risky"))
+        self.assertNotIn("false positive", self.row(md, "risky"))
+        self.assertIn("<summary>1 false positive</summary>", self.row(md, "fp"))
         self.assertIn("&lt;b&gt;x&lt;/b&gt;", md)
         self.assertIn("🟢 ok", self.row(md, "fp"))
         self.assertIn("1 tolerated", md)
