@@ -79,6 +79,42 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "frontend/index.js:51396"
+  },
+  {
+   "fingerprint": "13d8c510c2e1ad3c",
+   "kind": "tolerated",
+   "reason": "Runs request-modification scripts from the plugin's built-in templates or written by the user, with the base request passed in as data; the bundled YAML library reads the LOG_TOKENS debug switch, and lodash Function(\"return this\") is a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-runtime-environment-read",
+   "where": "backend/index.js:6417"
+  },
+  {
+   "fingerprint": "64fcf187928c45d4",
+   "kind": "tolerated",
+   "reason": "Runs request-modification scripts from the plugin's built-in templates or written by the user, with the base request passed in as data; the bundled YAML library reads the LOG_TOKENS debug switch, and lodash Function(\"return this\") is a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "backend/index.js:8751"
+  },
+  {
+   "fingerprint": "743df21a96c618bb",
+   "kind": "tolerated",
+   "reason": "Runs request-modification scripts from the plugin's built-in templates or written by the user, with the base request passed in as data; the bundled YAML library reads the LOG_TOKENS debug switch, and lodash Function(\"return this\") is a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "frontend/index.js:36932"
+  },
+  {
+   "fingerprint": "25bacac126f9a87d",
+   "kind": "tolerated",
+   "reason": "Runs request-modification scripts from the plugin's built-in templates or written by the user, with the base request passed in as data; the bundled YAML library reads the LOG_TOKENS debug switch, and lodash Function(\"return this\") is a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "frontend/index.js:50800"
   }
  ]
 }

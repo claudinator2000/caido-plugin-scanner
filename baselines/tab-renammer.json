@@ -1,0 +1,13 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "b8f93767d4d870a0",
+   "kind": "tolerated",
+   "reason": "Runs the user's tab-naming function from the plugin settings, with method, path and host passed in as data.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "frontend/index.js:3451"
+  }
+ ]
+}

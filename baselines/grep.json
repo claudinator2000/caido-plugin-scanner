@@ -47,6 +47,15 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "frontend/index.js:42848"
+  },
+  {
+   "fingerprint": "a603eeaa16c9e9f9",
+   "kind": "tolerated",
+   "reason": "Applies the user's optional transformation script to each match, with the match passed in as data.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "backend/index.js:139"
   }
  ]
 }
