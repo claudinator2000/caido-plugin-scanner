@@ -3,7 +3,7 @@
   {
    "fingerprint": "096f1b566912d991",
    "kind": "tolerated",
-   "reason": "Downloads jxscout pro from the vendor (jxscout.app, the jxscout project's own site) only on a button click; no checksum or signature, so the vendor must be trusted. With mode managed and a license, the installed binary starts on every Caido launch (autoLaunch, on by default). The license key goes as a URL parameter to the vendor only.",
+   "reason": "Downloads and starts the jxscout pro binary from the vendor (jxscout.app, the jxscout project's own site) on a button click; with mode managed and a license, the installed binary starts with Caido (autoLaunch). The license key goes to the vendor only.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "caido-backend-dangerous-module",
@@ -12,7 +12,7 @@
   {
    "fingerprint": "94a15000110982f4",
    "kind": "tolerated",
-   "reason": "Downloads jxscout pro from the vendor (jxscout.app, the jxscout project's own site) only on a button click; no checksum or signature, so the vendor must be trusted. With mode managed and a license, the installed binary starts on every Caido launch (autoLaunch, on by default). The license key goes as a URL parameter to the vendor only.",
+   "reason": "Downloads and starts the jxscout pro binary from the vendor (jxscout.app, the jxscout project's own site) on a button click; with mode managed and a license, the installed binary starts with Caido (autoLaunch). The license key goes to the vendor only.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "caido-backend-dangerous-module",
@@ -21,7 +21,7 @@
   {
    "fingerprint": "8978767b4f74f69a",
    "kind": "tolerated",
-   "reason": "Downloads jxscout pro from the vendor (jxscout.app, the jxscout project's own site) only on a button click; no checksum or signature, so the vendor must be trusted. With mode managed and a license, the installed binary starts on every Caido launch (autoLaunch, on by default). The license key goes as a URL parameter to the vendor only.",
+   "reason": "Downloads and starts the jxscout pro binary from the vendor (jxscout.app, the jxscout project's own site) on a button click; with mode managed and a license, the installed binary starts with Caido (autoLaunch). The license key goes to the vendor only.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "caido-backend-dangerous-module",
@@ -30,7 +30,7 @@
   {
    "fingerprint": "4b8b38b7c1c73713",
    "kind": "tolerated",
-   "reason": "Downloads jxscout pro from the vendor (jxscout.app, the jxscout project's own site) only on a button click; no checksum or signature, so the vendor must be trusted. With mode managed and a license, the installed binary starts on every Caido launch (autoLaunch, on by default). The license key goes as a URL parameter to the vendor only.",
+   "reason": "Downloads and starts the jxscout pro binary from the vendor (jxscout.app, the jxscout project's own site) on a button click; with mode managed and a license, the installed binary starts with Caido (autoLaunch). The license key goes to the vendor only.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "caido-backend-dangerous-module",
@@ -39,7 +39,7 @@
   {
    "fingerprint": "dc8e7b562cf97c01",
    "kind": "tolerated",
-   "reason": "Downloads jxscout pro from the vendor (jxscout.app, the jxscout project's own site) only on a button click; no checksum or signature, so the vendor must be trusted. With mode managed and a license, the installed binary starts on every Caido launch (autoLaunch, on by default). The license key goes as a URL parameter to the vendor only.",
+   "reason": "Downloads and starts the jxscout pro binary from the vendor (jxscout.app, the jxscout project's own site) on a button click; with mode managed and a license, the installed binary starts with Caido (autoLaunch). The license key goes to the vendor only.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "caido-secret-in-url",
@@ -48,7 +48,7 @@
   {
    "fingerprint": "ce321f6424fd87e6",
    "kind": "tolerated",
-   "reason": "Downloads jxscout pro from the vendor (jxscout.app, the jxscout project's own site) only on a button click; no checksum or signature, so the vendor must be trusted. With mode managed and a license, the installed binary starts on every Caido launch (autoLaunch, on by default). The license key goes as a URL parameter to the vendor only.",
+   "reason": "Downloads and starts the jxscout pro binary from the vendor (jxscout.app, the jxscout project's own site) on a button click; with mode managed and a license, the installed binary starts with Caido (autoLaunch). The license key goes to the vendor only.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "caido-make-executable",

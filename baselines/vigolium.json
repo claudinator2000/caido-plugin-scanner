@@ -7,6 +7,15 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "frontend/script.js:19813"
+  },
+  {
+   "fingerprint": "87be9336ce2e6559",
+   "kind": "tolerated",
+   "reason": "Opt-in bridge for the Vigolium CLI, bound to 127.0.0.1:9009, with Host and Origin checks.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "backend/script.js:11"
   }
  ]
 }

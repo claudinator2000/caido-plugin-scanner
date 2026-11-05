@@ -23,6 +23,24 @@
    "review_by": "2027-05-02",
    "rule": "threat-process-cryptomining",
    "where": "jq-frontend/assets/jq.worker.js:2"
+  },
+  {
+   "fingerprint": "9dcf6908cd3f98ac",
+   "kind": "tolerated",
+   "reason": "Runs the local jq binary without a shell, with the user's query and validated flags; lodash Function(\"return this\") is a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "jq-backend/index.js:2"
+  },
+  {
+   "fingerprint": "1d747e3e57d7884b",
+   "kind": "tolerated",
+   "reason": "Runs the local jq binary without a shell, with the user's query and validated flags; lodash Function(\"return this\") is a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "jq-frontend/index.js:1760"
   }
  ]
 }

@@ -43,7 +43,7 @@
   {
    "fingerprint": "d45a647a4503fa87",
    "kind": "tolerated",
-   "reason": "Starts only binaries the user allowlists per agent (none by default), without a shell; the model chooses the arguments, so never allowlist shells or interpreters.",
+   "reason": "Starts only binaries the user allowlists per agent (none by default), without a shell.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "caido-backend-dangerous-module",
@@ -52,7 +52,7 @@
   {
    "fingerprint": "aa5e2b51833b8143",
    "kind": "tolerated",
-   "reason": "Agent tools (PayloadBlobCreate, HostedFileCreateAdvanced) run model-generated JavaScript with a direct eval in the Caido frontend, with SDK access and no confirmation; content of scanned targets could steer this via prompt injection. Tolerated on the owner's assessment that current models resist prompt injection well enough.",
+   "reason": "Agent tools (PayloadBlobCreate, HostedFileCreateAdvanced) evaluate model-written JavaScript in the Caido frontend to generate payloads, a feature of the plugin.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "obf-dynamic-code-exec",
@@ -61,7 +61,7 @@
   {
    "fingerprint": "0a58b6a5869547fa",
    "kind": "tolerated",
-   "reason": "Agent tools (PayloadBlobCreate, HostedFileCreateAdvanced) run model-generated JavaScript with a direct eval in the Caido frontend, with SDK access and no confirmation; content of scanned targets could steer this via prompt injection. Tolerated on the owner's assessment that current models resist prompt injection well enough.",
+   "reason": "Agent tools (PayloadBlobCreate, HostedFileCreateAdvanced) evaluate model-written JavaScript in the Caido frontend to generate payloads, a feature of the plugin.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "threat-runtime-obfuscation-base64exec",
@@ -70,7 +70,7 @@
   {
    "fingerprint": "1345b920c9e64d21",
    "kind": "tolerated",
-   "reason": "Agent tools (PayloadBlobCreate, HostedFileCreateAdvanced) run model-generated JavaScript with a direct eval in the Caido frontend, with SDK access and no confirmation; content of scanned targets could steer this via prompt injection. Tolerated on the owner's assessment that current models resist prompt injection well enough.",
+   "reason": "Agent tools (PayloadBlobCreate, HostedFileCreateAdvanced) evaluate model-written JavaScript in the Caido frontend to generate payloads, a feature of the plugin.",
    "owner": "claudinator2000",
    "review_by": "2027-05-05",
    "rule": "obf-dynamic-code-exec",

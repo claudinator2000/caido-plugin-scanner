@@ -15,6 +15,15 @@
    "review_by": "2027-05-02",
    "rule": "threat-process-download-exec",
    "where": "backend/script.js:300"
+  },
+  {
+   "fingerprint": "61b63786cd0a8d30",
+   "kind": "tolerated",
+   "reason": "Runs tools the user configures through the login shell, on user action only; request values are shell-escaped, raw request, headers and body go to temporary files readable only by the user.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "backend/script.js:4"
   }
  ]
 }
