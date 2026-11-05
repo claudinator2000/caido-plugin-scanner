@@ -214,6 +214,25 @@ class FindingsTest(unittest.TestCase):
         self.assertEqual(rc, 1)
         self.assertTrue(all("expired" in p["problem"] for p in rep2["baseline_problems"]))
 
+    def test_risk_accepted_entry_suppresses(self):
+        _, rep = self.run_gate([self.warning()])
+        rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], kind="risk-accepted"))
+        self.assertEqual(rc, 0)
+        self.assertEqual({v["kind"] for v in rep2["accepted"].values()}, {"risk-accepted"})
+
+    def test_unknown_kind_does_not_suppress(self):
+        _, rep = self.run_gate([self.warning()])
+        for kind in ("fine", "Risk-Accepted", ""):
+            with self.subTest(kind=kind):
+                rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], kind=kind))
+                self.assertEqual(rc, 1)
+                self.assertTrue(rep2["baseline_problems"])
+
+    def test_entry_without_kind_is_a_false_positive(self):
+        _, rep = self.run_gate([self.warning()])
+        _, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"]))
+        self.assertEqual({v["kind"] for v in rep2["accepted"].values()}, {"false-positive"})
+
     def test_stale_entry_is_reported(self):
         _, rep = self.run_gate([self.warning()])
         rc, rep2 = self.run_gate([], baseline=accept(rep["baseline_candidate"]))

@@ -28,6 +28,7 @@ Open the newest run and scroll to the table.
 | 🟢 ok | Nothing that needs a look. |
 | 🔴 new | Findings that need a human look, first seen in this run. |
 | 🔴 open | Findings that still need a human look, seen before; the plugin has not changed since. |
+| 🟡 risk accepted | Real behaviour that I reviewed and accept for my own use, with the reason shown. A personal decision, not a recommendation. |
 | ⚪ no report | The scan did not finish: download, signature or package check failed. See the job log. |
 
 A red row means "read this code", not "this plugin is malicious". Most findings in
@@ -35,9 +36,10 @@ legitimate plugins come from bundled libraries or from what the plugin is meant 
 such as running a command you configured. Expand a row to see the code, a link to the
 source line and what the rule looks for.
 
-Accepted findings in this repository are limited to clear false positives, where the
-behaviour a rule looks for does not happen at all, for example a rule matching plain data
-or a lookup table. Anything that does happen stays red, even when it looks harmless.
+Accepted findings are of two kinds. False positives, where the behaviour a rule looks for
+does not happen at all (a rule matching plain data or a lookup table), count as ok. Real
+behaviour I decided to accept, one finding at a time, shows as 🟡 with my reason. Everything
+else stays red.
 
 If you think you found a malicious plugin, tell the Caido team and the maintainer
 privately rather than in a public issue.
