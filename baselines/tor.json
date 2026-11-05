@@ -1,0 +1,31 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "8be99abfb5eaa883",
+   "kind": "tolerated",
+   "reason": "Downloads the Tor Expert Bundle from torproject.org only on a button click (Install/Update); no GPG verification. The Tor daemon starts only on click or with autoStart, which is off by default.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "tor-backend/index.js:16"
+  },
+  {
+   "fingerprint": "0892233a8f094017",
+   "kind": "tolerated",
+   "reason": "Downloads the Tor Expert Bundle from torproject.org only on a button click (Install/Update); no GPG verification. The Tor daemon starts only on click or with autoStart, which is off by default.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "tor-backend/index.js:289"
+  },
+  {
+   "fingerprint": "815bbe9c5355674c",
+   "kind": "tolerated",
+   "reason": "Downloads the Tor Expert Bundle from torproject.org only on a button click (Install/Update); no GPG verification. The Tor daemon starts only on click or with autoStart, which is off by default.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-make-executable",
+   "where": "tor-backend/index.js:205"
+  }
+ ]
+}
