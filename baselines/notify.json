@@ -1,0 +1,40 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "507561e064e1dc2d",
+   "kind": "tolerated",
+   "reason": "Runs projectdiscovery notify with shell: true; only the config path and the user's own notify IDs reach the shell, finding content goes via stdin. Sends finding titles and descriptions to the channels the user configures, by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "backend/index.js:2"
+  },
+  {
+   "fingerprint": "7ca92f958a0e4816",
+   "kind": "tolerated",
+   "reason": "Runs projectdiscovery notify with shell: true; only the config path and the user's own notify IDs reach the shell, finding content goes via stdin. Sends finding titles and descriptions to the channels the user configures, by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-dynamic-shell-command",
+   "where": "backend/index.js:49"
+  },
+  {
+   "fingerprint": "6b83b72f9e7ec074",
+   "kind": "tolerated",
+   "reason": "Runs projectdiscovery notify with shell: true; only the config path and the user's own notify IDs reach the shell, finding content goes via stdin. Sends finding titles and descriptions to the channels the user configures, by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-dynamic-shell-command",
+   "where": "backend/index.js:417"
+  },
+  {
+   "fingerprint": "5c432718499f2633",
+   "kind": "tolerated",
+   "reason": "Runs projectdiscovery notify with shell: true; only the config path and the user's own notify IDs reach the shell, finding content goes via stdin. Sends finding titles and descriptions to the channels the user configures, by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-dynamic-shell-command",
+   "where": "backend/index.js:678"
+  }
+ ]
+}

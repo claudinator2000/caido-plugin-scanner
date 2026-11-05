@@ -47,6 +47,42 @@
    "review_by": "2027-05-02",
    "rule": "threat-runtime-keylogging",
    "where": "frontend/index.js:72311"
+  },
+  {
+   "fingerprint": "b893d2c7fbdeb236",
+   "kind": "tolerated",
+   "reason": "Starts the user's chosen AI CLI with shell, file and web tools disabled and only drift's MCP tools allowed. The bundled MCP server gets the user's own Caido session token (read from the Caido UI's local storage) and the API URL from the plugin setting (default http://localhost:8080) and talks only to that URL, with approval for actions. Data the agent reads goes to the chosen AI provider; os.platform() is for launch diagnostics.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-runtime-environment-read",
+   "where": "backend/assets/mcp-server.mjs:13"
+  },
+  {
+   "fingerprint": "309202525a3119ba",
+   "kind": "tolerated",
+   "reason": "Starts the user's chosen AI CLI with shell, file and web tools disabled and only drift's MCP tools allowed. The bundled MCP server gets the user's own Caido session token (read from the Caido UI's local storage) and the API URL from the plugin setting (default http://localhost:8080) and talks only to that URL, with approval for actions. Data the agent reads goes to the chosen AI provider; os.platform() is for launch diagnostics.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-traffic-to-network",
+   "where": "backend/assets/mcp-server.mjs:257"
+  },
+  {
+   "fingerprint": "3c67b82ef662c63a",
+   "kind": "tolerated",
+   "reason": "Starts the user's chosen AI CLI with shell, file and web tools disabled and only drift's MCP tools allowed. The bundled MCP server gets the user's own Caido session token (read from the Caido UI's local storage) and the API URL from the plugin setting (default http://localhost:8080) and talks only to that URL, with approval for actions. Data the agent reads goes to the chosen AI provider; os.platform() is for launch diagnostics.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "backend/index.js:13"
+  },
+  {
+   "fingerprint": "b16cd67e1cfa7d20",
+   "kind": "tolerated",
+   "reason": "Starts the user's chosen AI CLI with shell, file and web tools disabled and only drift's MCP tools allowed. The bundled MCP server gets the user's own Caido session token (read from the Caido UI's local storage) and the API URL from the plugin setting (default http://localhost:8080) and talks only to that URL, with approval for actions. Data the agent reads goes to the chosen AI provider; os.platform() is for launch diagnostics.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-runtime-system-info",
+   "where": "backend/index.js:2521"
   }
  ]
 }
