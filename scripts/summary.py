@@ -323,14 +323,33 @@ def code_block(v):
     return ""
 
 
+BASIS_LABELS = {"plugin-purpose": "it is what the plugin is for",
+                "trusted-maintainer": "the maintainer is trusted",
+                "hard-to-exploit": "exploiting it needs specific conditions",
+                "third-party-service": "the risk lies with a service the plugin depends on",
+                "other": "see reason"}
+
+
+def risk_accepted(rep):
+    return [v for v in (rep.get("accepted") or {}).values() if v.get("kind") == "risk-accepted"]
+
+
+def accepted_label(v):
+    if v.get("kind") != "risk-accepted":
+        return "False positive"
+    return f"Risk accepted: {esc(BASIS_LABELS.get(v.get('basis'), v.get('basis')))}"
+
+
 def accepted_block(rep, detailed):
     items = list((rep.get("accepted") or {}).values())
+    risks = len(risk_accepted(rep))
+    title = f"{len(items)} accepted" + (f" ({risks} risk accepted)" if risks else "")
     if not detailed:
-        return f"{len(items)} accepted"
-    lines = [f"<details><summary>{len(items)} accepted</summary>", "<ul>"]
+        return title
+    lines = [f"<details><summary>{title}</summary>", "<ul>"]
     for v in items:
         code = code_block(v)
-        lines.append(f"<li><code>{esc(v.get('tool'))}</code> <b>{esc(v.get('rule'))}</b>"
+        lines.append(f"<li><i>{accepted_label(v)}</i> · <code>{esc(v.get('tool'))}</code> <b>{esc(v.get('rule'))}</b>"
                      f" @ <code>{esc(v.get('where'))}</code>{origin_line(v)}"
                      f"<br><i>Reason:</i> {esc(v.get('reason'))}"
                      f"<br><i>Owner:</i> {esc(v.get('owner'))}"
@@ -405,8 +424,10 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
         blocking = len(rep["new_blocking"]) if rep else None
         rows.append((p, rep, blocking, fresh))
 
-    # No report first, then newly blocked, then by number of blocking findings, then alphabetically
-    rows.sort(key=lambda r: (r[1] is not None, not (r[1] and alarming(r[1])), -(r[2] or 0), r[0]["id"]))
+    # No report first, then newly blocked, then by number of blocking findings, accepted risks
+    # before ok, then alphabetically
+    rows.sort(key=lambda r: (r[1] is not None, not (r[1] and alarming(r[1])), -(r[2] or 0),
+                             not (r[1] and risk_accepted(r[1])), r[0]["id"]))
 
     Path(candidates_dir).mkdir(parents=True, exist_ok=True)
     for p, rep, _, fresh in rows:
@@ -417,20 +438,22 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
     missing = sum(1 for _, rep, _, _ in rows if rep is None)
     bad = sum(1 for _, rep, b, _ in rows if rep is not None and b)
     alarms = sum(1 for _, rep, b, fresh in rows if rep is not None and b and fresh and alarming(rep))
-    ok = len(rows) - missing - bad
+    risky = sum(1 for _, rep, b, _ in rows if rep is not None and not b and risk_accepted(rep))
+    ok = len(rows) - missing - bad - risky
     scanned = sum(1 for r in rows if r[3])
 
     head = "\n".join([
         "## Caido plugin scan",
         "",
         f"**{len(rows)} plugin{'' if len(rows) == 1 else 's'}** ({scanned} scanned in this run, the others with their last "
-        f"result): {ok} without blocking findings · {bad} blocked, {alarms} of them with a new "
+        f"result): {ok} ok · {risky} with accepted risks · {bad} blocked, {alarms} of them with a new "
         f"finding in this run · {missing} without a report (scan incomplete, aborted or never "
         "run, see the job log)",
         "",
         "A run fails only on new findings: a finding seen before for the same plugin version "
         "stays blocked here (🔴 open) but no longer causes a red run or an email. An update "
-        "of the plugin reports all its findings again.",
+        "of the plugin reports all its findings again. 🟡 risk accepted: no open findings, but "
+        "real behaviour the baseline owner accepted for a stated basis.",
         "",
         "Baseline templates of the plugins scanned in this run: artifact `baseline-candidates` "
         "(one file per plugin). Raw data per plugin: artifact `report-<id>` of the respective run.",
@@ -459,7 +482,7 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
                            "<td>–</td><td>–</td><td>–</td><td>–</td><td></td></tr>")
                 continue
             if not b:
-                status = "🟢 ok"
+                status = "🟡 risk accepted" if risk_accepted(rep) else "🟢 ok"
             elif alarming(rep) and fresh:
                 status = "🔴 new"
             else:

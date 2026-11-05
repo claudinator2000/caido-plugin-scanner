@@ -24,7 +24,8 @@ SEMGREP_VERSION=1.182.1 python3 -I -m unittest discover -s tests
 scripts/install-osv-scanner.sh /tmp/osv-scanner && SEMGREP_VERSION=1.182.1 tests/test_evasion.sh /tmp/osv-scanner
 ```
 
-Baselines here accept clear false positives only: the behaviour the rule looks for does not
-happen at all (the match is data, text, a different API, or a decode whose result never
-becomes code or a URL). If the behaviour happens, it stays red, even when it is harmless
-library code or a plugin feature.
+Baseline entries default to `false-positive`: only when the behaviour the rule looks for does
+not happen at all (the match is data, text, a different API, or a decode whose result never
+becomes code or a URL). Real behaviour is accepted only as `risk-accepted` with a `basis`, and
+only as the repository owner's explicit decision on that single finding; never add such an
+entry on your own judgement.

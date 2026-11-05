@@ -106,7 +106,7 @@ class SummaryTest(unittest.TestCase):
         self.add("broken", report=False)
         md = self.run_summary()
         self.assertIn("3 plugins", md)
-        self.assertIn("1 without blocking findings", md)
+        self.assertIn("1 ok", md)
         self.assertIn("1 blocked, 1 of them with a new finding in this run", md)
         self.assertIn("1 without a report", md)
         self.assertIn("obf-dynamic-code-exec ×2", md)
@@ -256,6 +256,24 @@ class SummaryTest(unittest.TestCase):
         self.assertIn("Download from &lt;torproject.org&gt;", md)
         self.assertIn("2027-05-01", md)
         self.assertIn("<td>0</td><td>1</td><td>0</td><td>0</td>", self.row(md, "p"))
+
+    def test_risk_accepted_plugin_is_yellow(self):
+        self.add("risky"); self.add("clean"); self.add("fp")
+        for pid, kind in (("risky", "risk-accepted"), ("fp", "false-positive")):
+            f = self.reports / f"report-{pid}" / "report.json"
+            rep = json.loads(f.read_text())
+            rep["accepted"] = {"f1": dict(finding("caido-make-executable"), reason="<b>x</b>", owner="me",
+                                          review_by="2027-05-01", kind=kind,
+                                          basis="trusted-maintainer" if kind == "risk-accepted" else None)}
+            f.write_text(json.dumps(rep))
+        md = self.run_summary()
+        self.assertIn("🟡 risk accepted", self.row(md, "risky"))
+        self.assertIn("1 accepted (1 risk accepted)", md)
+        self.assertIn("Risk accepted: the maintainer is trusted", md)
+        self.assertIn("🟢 ok", self.row(md, "fp"))
+        self.assertIn("1 with accepted risks", md)
+        table = md[md.index("<table>"):]
+        self.assertLess(table.index("owner/risky"), table.index("owner/clean"))
 
     def test_further_locations_shown(self):
         f = self.enriched()

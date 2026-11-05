@@ -35,6 +35,10 @@ from pathlib import Path
 from urllib.parse import quote
 
 ENTRY_FIELDS = ("reason", "owner", "review_by")
+# "false-positive" (default): the behaviour the rule looks for does not happen.
+# "risk-accepted": it happens and the owner accepts it, for a stated basis.
+KINDS = ("false-positive", "risk-accepted")
+RISK_BASES = ("plugin-purpose", "trusted-maintainer", "hard-to-exploit", "third-party-service", "other")
 
 class ScanIncomplete(Exception):
     pass
@@ -490,6 +494,11 @@ def entry_problem(e, today):
     missing = [k for k in ENTRY_FIELDS if not str(e.get(k) or "").strip()]
     if missing:
         return "missing: " + ", ".join(missing)
+    kind = e.get("kind", "false-positive")
+    if kind not in KINDS:
+        return f"kind must be one of {', '.join(KINDS)}"
+    if kind == "risk-accepted" and e.get("basis") not in RISK_BASES:
+        return f"risk-accepted needs basis: one of {', '.join(RISK_BASES)}"
     try:
         review_by = datetime.date.fromisoformat(e["review_by"])
     except ValueError:
@@ -592,7 +601,8 @@ def main(pid, gd, sg, osv, inv, base, out, src=None, source_file=None, repo=None
         "new_info": {k: v for k, v in new.items() if k not in blocking},
         "baseline_problems": problems,
         "baseline_stale": sorted(set(baseline) - set(found)),
-        "accepted": {k: {**found[k], **{f: baseline[k][f] for f in ENTRY_FIELDS}}
+        "accepted": {k: {**found[k], **{f: baseline[k][f] for f in ENTRY_FIELDS},
+                         "kind": baseline[k].get("kind", "false-positive"), "basis": baseline[k].get("basis")}
                      for k in sorted(set(baseline) & set(found))},
         "all": found,
         "baseline_candidate": {"accepted": [
