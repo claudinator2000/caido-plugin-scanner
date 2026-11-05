@@ -69,7 +69,7 @@ class SummaryTest(unittest.TestCase):
         self.plugins.append({"id": "never", "repo": "owner/never", "store": True})
         md = self.run_summary(selected=["fresh"])
         self.assertIn("3 plugins** (1 scanned in this run", md)
-        self.assertIn('🔴 reported</td><td><a href="https://github.com/o/r/actions/runs/7">2026-11-02</a>',
+        self.assertIn('🔴 open</td><td><a href="https://github.com/o/r/actions/runs/7">2026-11-02</a>',
                       self.row(md, "old"))
         self.assertIn("⚪ no result yet", self.row(md, "never"))
         self.assertIn("0 of them with a new finding", md)
@@ -81,14 +81,14 @@ class SummaryTest(unittest.TestCase):
         md = self.run_summary(selected=["broken"])
         self.assertIn("⚪ no report</td><td>this run", self.row(md, "broken"))
 
-    def test_known_findings_in_fresh_report_are_reported_not_new(self):
+    def test_known_findings_in_fresh_report_are_open_not_new(self):
         self.add("p", blocking=[finding("x"), finding("y")])
         rep_file = self.reports / "report-p" / "report.json"
         rep = json.loads(rep_file.read_text())
         rep["known_blocking"] = ["b0", "b1"]
         rep_file.write_text(json.dumps(rep))
         md = self.run_summary(selected=["p"])
-        self.assertIn("🔴 reported", self.row(md, "p"))
+        self.assertIn("🔴 open", self.row(md, "p"))
         rep["known_blocking"] = ["b0"]
         rep_file.write_text(json.dumps(rep))
         self.assertIn("🔴 new", self.row(self.run_summary(selected=["p"]), "p"))
