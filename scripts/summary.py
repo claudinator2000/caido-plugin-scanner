@@ -428,8 +428,8 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
         f"finding in this run · {missing} without a report (scan incomplete, aborted or never "
         "run, see the job log)",
         "",
-        "A run fails only on new findings: a finding already reported for the same plugin state "
-        "stays blocked here (🔴 reported) but no longer causes a red run or an email. An update "
+        "A run fails only on new findings: a finding seen before for the same plugin version "
+        "stays blocked here (🔴 open) but no longer causes a red run or an email. An update "
         "of the plugin reports all its findings again.",
         "",
         "Baseline templates of the plugins scanned in this run: artifact `baseline-candidates` "
@@ -463,7 +463,7 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
             elif alarming(rep) and fresh:
                 status = "🔴 new"
             else:
-                status = "🔴 reported"
+                status = "🔴 open"
             cells = []
             if b:
                 cells.append(blocking_block(p["id"], rep, shared, max_items))

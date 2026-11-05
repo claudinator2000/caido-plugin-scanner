@@ -27,7 +27,7 @@ Open the newest run and scroll to the table.
 |---|---|
 | 🟢 ok | Nothing that needs a look. |
 | 🔴 new | Findings that need a human look, first seen in this run. |
-| 🔴 reported | Same findings as before, plugin unchanged. |
+| 🔴 open | Findings that still need a human look, seen before; the plugin has not changed since. |
 | ⚪ no report | The scan did not finish: download, signature or package check failed. See the job log. |
 
 A red row means "read this code", not "this plugin is malicious". Most findings in
