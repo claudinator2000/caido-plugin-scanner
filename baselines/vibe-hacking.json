@@ -23,6 +23,15 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "backend/index.js:8735"
+  },
+  {
+   "fingerprint": "73c3298c09fd3b2a",
+   "kind": "tolerated",
+   "reason": "ajv compiles the plugin's own JSON schemas into validator functions with new Function, the library's code generator.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "backend/index.js:2941"
   }
  ]
 }

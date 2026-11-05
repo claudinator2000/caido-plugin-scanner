@@ -1,0 +1,13 @@
+{
+ "accepted": [
+  {
+   "fingerprint": "dd86615412969661",
+   "kind": "tolerated",
+   "reason": "lodash Function(\"return this\") to find the global object; a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "frontend/script.js:19357"
+  }
+ ]
+}

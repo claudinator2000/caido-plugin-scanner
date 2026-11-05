@@ -7,6 +7,15 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "screenshot-mode-frontend/index.js:28234"
+  },
+  {
+   "fingerprint": "c04f7374712c2659",
+   "kind": "tolerated",
+   "reason": "lodash Function(\"return this\") to find the global object; a fixed library string.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "screenshot-mode-frontend/index.js:26433"
   }
  ]
 }
