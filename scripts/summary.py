@@ -292,12 +292,12 @@ def finding_item(pid, key, v, shared):
     return "".join(parts)
 
 
-def blocking_block(pid, rep, shared, max_items):
-    """Collapsible list of a plugin's blocking findings (a table cell)."""
+def blocking_block(pid, rep, shared, max_items, fresh):
+    """Collapsible list of a plugin's blocking findings (a table cell). Findings first
+    reported in this run are counted as new: they are what made the run fail."""
     items = list(rep["new_blocking"].items())
-    known = set(rep.get("known_blocking") or [])
-    new = sum(1 for k, _ in items if k not in known)
-    label = (f"<b>{len(items)} blocking</b>" + (f" ({new} new)" if known and new else "")
+    new = len(alarming(rep)) if fresh else 0
+    label = (f"<b>{len(items)} blocking</b>" + (f" ({new} new in this run)" if new else "")
              + f": {rule_counts(rep['new_blocking'])}")
     if max_items == 0:
         return f"{label} (details in artifact <code>report-{esc(pid)}</code>)"
@@ -327,20 +327,18 @@ def tolerated(rep):
     return [v for v in (rep.get("accepted") or {}).values() if v.get("kind") == "tolerated"]
 
 
-def accepted_label(v):
-    return "Tolerated" if v.get("kind") == "tolerated" else "False positive"
+def false_positives(rep):
+    return [v for v in (rep.get("accepted") or {}).values() if v.get("kind") != "tolerated"]
 
 
-def accepted_block(rep, detailed):
-    items = list((rep.get("accepted") or {}).values())
-    n_tolerated = len(tolerated(rep))
-    title = f"{len(items)} accepted" + (f" ({n_tolerated} tolerated)" if n_tolerated else "")
+def accepted_block(items, title, detailed):
+    """Collapsible list of accepted findings of one kind (tolerated or false positives)."""
     if not detailed:
         return title
     lines = [f"<details><summary>{title}</summary>", "<ul>"]
     for v in items:
         code = code_block(v)
-        lines.append(f"<li><i>{accepted_label(v)}</i> · <code>{esc(v.get('tool'))}</code> <b>{esc(v.get('rule'))}</b>"
+        lines.append(f"<li><code>{esc(v.get('tool'))}</code> <b>{esc(v.get('rule'))}</b>"
                      f" @ <code>{esc(v.get('where'))}</code>{origin_line(v)}"
                      f"<br><i>Reason:</i> {esc(v.get('reason'))}"
                      f"<br><i>Owner:</i> {esc(v.get('owner'))}"
@@ -441,10 +439,11 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
         f"finding in this run · {missing} without a report (scan incomplete, aborted or never "
         "run, see the job log)",
         "",
-        "A run fails only on new findings: a finding seen before for the same plugin version "
-        "stays blocked here (🔴 open) but no longer causes a red run or an email. An update "
-        "of the plugin reports all its findings again. 🟡 tolerated: no open findings, but "
-        "real behaviour the baseline owner accepted, with the reason shown.",
+        "🔴 open: findings that need a human look. A run fails only on findings it reports for "
+        "the first time (marked \"new in this run\"); a finding seen before for the same plugin "
+        "version stays open here but no longer causes a red run or an email. An update of the "
+        "plugin reports all its findings again. 🟡 tolerated: no open findings, but real "
+        "behaviour the baseline owner accepted, with the reason shown.",
         "",
         "Baseline templates of the plugins scanned in this run: artifact `baseline-candidates` "
         "(one file per plugin). Raw data per plugin: artifact `report-<id>` of the respective run.",
@@ -463,31 +462,34 @@ def main(reports_dir, plugins_file, out, candidates_dir, limit=DEFAULT_LIMIT, se
         # HTML instead of a Markdown table: cells with multi-line, collapsible findings.
         # No blank lines inside the block, otherwise it ends for the Markdown parser.
         out = ["<table>", "<thead><tr><th>Plugin</th><th>Version</th><th>Status</th><th>Scanned</th><th>Blocking</th>"
-               "<th>Accepted</th><th>Info</th><th>Baseline problems</th><th>Findings</th></tr></thead>",
+               "<th>Tolerated</th><th>False positives</th><th>Info</th><th>Baseline problems</th>"
+               "<th>Findings</th></tr></thead>",
                "<tbody>"]
         for p, rep, b, fresh in rows:
             link = f'<a href="https://github.com/{p["repo"]}">{esc(p["id"])}</a>'
             if rep is None:
                 why = "no report" if fresh else "no result yet"
                 out.append(f"<tr><td>{link}</td><td>–</td><td>⚪ {why}</td><td>{'this run' if fresh else '–'}</td>"
-                           "<td>–</td><td>–</td><td>–</td><td>–</td><td></td></tr>")
+                           "<td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td></td></tr>")
                 continue
             if not b:
                 status = "🟡 tolerated" if tolerated(rep) else "🟢 ok"
-            elif alarming(rep) and fresh:
-                status = "🔴 new"
             else:
                 status = "🔴 open"
             cells = []
             if b:
-                cells.append(blocking_block(p["id"], rep, shared, max_items))
-            if rep.get("accepted"):
-                cells.append(accepted_block(rep, accepted_details))
+                cells.append(blocking_block(p["id"], rep, shared, max_items, fresh))
+            tol, fps = tolerated(rep), false_positives(rep)
+            if tol:
+                cells.append(accepted_block(tol, f"{len(tol)} tolerated", accepted_details))
+            if fps:
+                cells.append(accepted_block(fps, f"{len(fps)} false positive{'' if len(fps) == 1 else 's'}",
+                                            accepted_details))
             if rep.get("baseline_problems"):
                 cells.append(problems_block(rep))
             out.append(f"<tr><td>{link}</td><td>{version_cell(p['repo'], rep)}</td><td>{status}</td>"
                        f"<td>{stand(rep, fresh)}</td><td>{b}</td>"
-                       f"<td>{len(rep.get('accepted') or {})}</td><td>{len(rep.get('new_info') or {})}</td>"
+                       f"<td>{len(tol)}</td><td>{len(fps)}</td><td>{len(rep.get('new_info') or {})}</td>"
                        f"<td>{len(rep.get('baseline_problems') or [])}</td><td>{chr(10).join(cells)}</td></tr>")
         out += ["</tbody>", "</table>", ""]
         return "\n".join(out)
