@@ -4,8 +4,9 @@
 
 Scans every plugin in the [Caido](https://caido.io) store for malicious behaviour:
 exfiltration of proxy traffic, hidden downloads and command execution, obfuscation,
-known-malicious dependencies and tampered packages. New releases are picked up within
-30 minutes; all plugins are rescanned daily.
+known-malicious dependencies and tampered packages. It checks for new releases every
+30 minutes and rescans all plugins daily; GitHub runs scheduled jobs on a best-effort
+basis, so a run can be late or skipped.
 
 What it is not:
 
@@ -13,6 +14,9 @@ What it is not:
   bugs. Known CVEs in dependencies are listed for context, nothing more.
 - **Not proof of safety.** It sets a minimum bar that catches careless or copied
   malware. A motivated attacker who knows the rules can get past it.
+
+This is a vibe-coded side project: written largely with an AI coding assistant, and used
+by me to check the plugins I run. Treat it accordingly.
 
 **[Latest results →](https://github.com/claudinator2000/caido-plugin-scanner/actions/workflows/scan.yml?query=branch%3Amain+event%3Aschedule)**
 Open the newest run and scroll to the table.
