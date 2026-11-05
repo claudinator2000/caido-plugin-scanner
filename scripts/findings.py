@@ -36,8 +36,8 @@ from urllib.parse import quote
 
 ENTRY_FIELDS = ("reason", "owner", "review_by")
 # "false-positive" (default): the behaviour the rule looks for does not happen.
-# "risk-accepted": it happens and the owner accepts it; the reason says why.
-KINDS = ("false-positive", "risk-accepted")
+# "tolerated": it happens and the owner accepts it; the reason says why.
+KINDS = ("false-positive", "tolerated")
 
 class ScanIncomplete(Exception):
     pass

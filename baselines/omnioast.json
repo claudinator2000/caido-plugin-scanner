@@ -7,6 +7,69 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "frontend/index.js:33754"
+  },
+  {
+   "fingerprint": "ef40e8a841e22f52",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs only at the OAST service the user adds (webhook.site or Interactsh; public servers via one-click presets). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "backend/index.js:4413"
+  },
+  {
+   "fingerprint": "3632922f08bb258b",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs only at the OAST service the user adds (webhook.site or Interactsh; public servers via one-click presets). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-exfiltration",
+   "where": "backend/index.js:4424"
+  },
+  {
+   "fingerprint": "afb72f36d6d4a55b",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs only at the OAST service the user adds (webhook.site or Interactsh; public servers via one-click presets). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "backend/index.js:4424"
+  },
+  {
+   "fingerprint": "dfaf08c11f28f05a",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs only at the OAST service the user adds (webhook.site or Interactsh; public servers via one-click presets). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "backend/index.js:4446"
+  },
+  {
+   "fingerprint": "e4a1c1eee00fd670",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs only at the OAST service the user adds (webhook.site or Interactsh; public servers via one-click presets). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-exfiltration",
+   "where": "backend/index.js:4461"
+  },
+  {
+   "fingerprint": "8014adb75f8ab2d9",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs only at the OAST service the user adds (webhook.site or Interactsh; public servers via one-click presets). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "backend/index.js:4461"
+  },
+  {
+   "fingerprint": "56ac72eedeff9ec9",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs only at the OAST service the user adds (webhook.site or Interactsh; public servers via one-click presets). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-secret-in-url",
+   "where": "frontend/index.js:34251"
   }
  ]
 }

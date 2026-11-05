@@ -15,6 +15,24 @@
    "review_by": "2027-05-02",
    "rule": "threat-runtime-obfuscation-base64exec",
    "where": "frontend/index.js:1655"
+  },
+  {
+   "fingerprint": "bc7e74c52d167b7a",
+   "kind": "tolerated",
+   "reason": "pdf.js tests with new Function(\"\") whether eval is allowed and loads its own worker via dynamic import.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-code-exec",
+   "where": "frontend/index.js:548"
+  },
+  {
+   "fingerprint": "426be834a8750976",
+   "kind": "tolerated",
+   "reason": "pdf.js tests with new Function(\"\") whether eval is allowed and loads its own worker via dynamic import.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-require-import",
+   "where": "frontend/index.js:8102"
   }
  ]
 }

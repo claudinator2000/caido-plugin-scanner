@@ -214,11 +214,11 @@ class FindingsTest(unittest.TestCase):
         self.assertEqual(rc, 1)
         self.assertTrue(all("expired" in p["problem"] for p in rep2["baseline_problems"]))
 
-    def test_risk_accepted_entry_suppresses(self):
+    def test_tolerated_entry_suppresses(self):
         _, rep = self.run_gate([self.warning()])
-        rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], kind="risk-accepted"))
+        rc, rep2 = self.run_gate([self.warning()], baseline=accept(rep["baseline_candidate"], kind="tolerated"))
         self.assertEqual(rc, 0)
-        self.assertEqual({v["kind"] for v in rep2["accepted"].values()}, {"risk-accepted"})
+        self.assertEqual({v["kind"] for v in rep2["accepted"].values()}, {"tolerated"})
 
     def test_unknown_kind_does_not_suppress(self):
         _, rep = self.run_gate([self.warning()])

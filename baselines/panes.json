@@ -39,6 +39,24 @@
    "review_by": "2027-05-05",
    "rule": "obf-decode-into-call",
    "where": "panes-frontend/index.js:14526"
+  },
+  {
+   "fingerprint": "84b98b6d8ed4aed9",
+   "kind": "tolerated",
+   "reason": "Default shell config path that is sourced (read) before a pane command so the user's PATH and aliases apply; nothing is written to it.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-filesystem-autostart",
+   "where": "panes-frontend/index.js:9405"
+  },
+  {
+   "fingerprint": "c649441243a9813f",
+   "kind": "tolerated",
+   "reason": "Runs the shell command the user configures for a pane when a request is shown in that pane; extracted data goes via stdin, placeholder values are shell-quoted.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "panes-backend/index.js:928"
   }
  ]
 }

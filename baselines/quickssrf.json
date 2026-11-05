@@ -7,6 +7,42 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "quickssrf-backend/index.js:1252"
+  },
+  {
+   "fingerprint": "c2aafad0b2b79f04",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs at the configured Interactsh server or webhook.site (oast.site preset enabled by default; sessions start only when the user creates them). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "quickssrf-backend/index.js:14945"
+  },
+  {
+   "fingerprint": "84a517d0aa7b4705",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs at the configured Interactsh server or webhook.site (oast.site preset enabled by default; sessions start only when the user creates them). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-exfiltration",
+   "where": "quickssrf-backend/index.js:14966"
+  },
+  {
+   "fingerprint": "370c6b64a37dabd6",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs at the configured Interactsh server or webhook.site (oast.site preset enabled by default; sessions start only when the user creates them). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-network-outbound-shady-links",
+   "where": "quickssrf-backend/index.js:14966"
+  },
+  {
+   "fingerprint": "d3e489a2fc3aadc9",
+   "kind": "tolerated",
+   "reason": "OAST plugin: registers and polls callback URLs at the configured Interactsh server or webhook.site (oast.site preset enabled by default; sessions start only when the user creates them). The Interactsh poll carries a per-session random secret, as the protocol requires. Callback data from targets lands at that third-party service by design.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-secret-in-url",
+   "where": "quickssrf-backend/index.js:14796"
   }
  ]
 }

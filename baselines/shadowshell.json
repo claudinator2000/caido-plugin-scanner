@@ -7,6 +7,24 @@
    "review_by": "2027-05-02",
    "rule": "obf-decode-into-call",
    "where": "frontend/index.js:2756"
+  },
+  {
+   "fingerprint": "d195467248972ebc",
+   "kind": "tolerated",
+   "reason": "Built-in terminal: runs the user's login shell in a PTY behind a relay bound to 127.0.0.1 that the plugin connects to.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "backend/index.js:2"
+  },
+  {
+   "fingerprint": "53fcb121f8aff091",
+   "kind": "tolerated",
+   "reason": "Built-in terminal: runs the user's login shell in a PTY behind a relay bound to 127.0.0.1 that the plugin connects to.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "caido-backend-dangerous-module",
+   "where": "backend/index.js:6"
   }
  ]
 }

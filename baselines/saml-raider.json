@@ -31,6 +31,24 @@
    "review_by": "2027-05-02",
    "rule": "threat-filesystem-read",
    "where": "frontend/index.js:11607"
+  },
+  {
+   "fingerprint": "29e41dff7c19c64a",
+   "kind": "tolerated",
+   "reason": "node-forge collects entropy from the string properties of navigator and creates an empty console only when none exists.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "threat-runtime-obfuscation-log-suppress",
+   "where": "backend/index.js:16703"
+  },
+  {
+   "fingerprint": "32ee1abd10026784",
+   "kind": "tolerated",
+   "reason": "node-forge collects entropy from the string properties of navigator and creates an empty console only when none exists.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-05",
+   "rule": "obf-dynamic-global-access",
+   "where": "backend/index.js:5003"
   }
  ]
 }
