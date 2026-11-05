@@ -1,44 +1,44 @@
 {
  "accepted": [
   {
-   "fingerprint": "a0f0f88667a72ada",
+   "fingerprint": "2e98cdcc7a2d57a1",
    "reason": "SQL tokenizer of the editor (keyword table).",
    "owner": "claudinator2000",
-   "review_by": "2027-05-02",
+   "review_by": "2027-05-05",
    "rule": "obf-decode-into-call",
-   "where": "panes-frontend/index.js:30886"
+   "where": "panes-frontend/index.js:32212"
   },
   {
-   "fingerprint": "118d45af4e15f862",
+   "fingerprint": "142e29b1bd9476f5",
    "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
    "owner": "claudinator2000",
-   "review_by": "2027-05-03",
+   "review_by": "2027-05-05",
    "rule": "obf-decode-into-call",
-   "where": "panes-frontend/index.js:16580"
+   "where": "panes-frontend/index.js:14525"
   },
   {
-   "fingerprint": "24a99c21d7839bb4",
+   "fingerprint": "87a5f043c48ac0c8",
    "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
    "owner": "claudinator2000",
-   "review_by": "2027-05-03",
+   "review_by": "2027-05-05",
    "rule": "obf-decode-into-call",
-   "where": "panes-frontend/index.js:16580"
+   "where": "panes-frontend/index.js:14525"
   },
   {
-   "fingerprint": "a70673cd48d61a41",
+   "fingerprint": "6f04f08752fd0979",
    "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
    "owner": "claudinator2000",
-   "review_by": "2027-05-03",
+   "review_by": "2027-05-05",
    "rule": "obf-decode-into-call",
-   "where": "panes-frontend/index.js:16579"
+   "where": "panes-frontend/index.js:14526"
   },
   {
-   "fingerprint": "bcb46e2e60d53eb0",
+   "fingerprint": "cad93f516a60c3eb",
    "reason": "Key code table from w3c-keyname (String.fromCharCode(Ne + 32) for keys 65-90); only the block scan of the fallback scan finds the data flow. No network, no code execution.",
    "owner": "claudinator2000",
-   "review_by": "2027-05-03",
+   "review_by": "2027-05-05",
    "rule": "obf-decode-into-call",
-   "where": "panes-frontend/index.js:16579"
+   "where": "panes-frontend/index.js:14526"
   }
  ]
 }
