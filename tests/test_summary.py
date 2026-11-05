@@ -257,21 +257,21 @@ class SummaryTest(unittest.TestCase):
         self.assertIn("2027-05-01", md)
         self.assertIn("<td>0</td><td>1</td><td>0</td><td>0</td>", self.row(md, "p"))
 
-    def test_risk_accepted_plugin_is_yellow(self):
+    def test_tolerated_plugin_is_yellow(self):
         self.add("risky"); self.add("clean"); self.add("fp")
-        for pid, kind in (("risky", "risk-accepted"), ("fp", "false-positive")):
+        for pid, kind in (("risky", "tolerated"), ("fp", "false-positive")):
             f = self.reports / f"report-{pid}" / "report.json"
             rep = json.loads(f.read_text())
             rep["accepted"] = {"f1": dict(finding("caido-make-executable"), reason="<b>x</b>", owner="me",
                                           review_by="2027-05-01", kind=kind)}
             f.write_text(json.dumps(rep))
         md = self.run_summary()
-        self.assertIn("🟡 risk accepted", self.row(md, "risky"))
-        self.assertIn("1 accepted (1 risk accepted)", md)
-        self.assertIn("<i>Risk accepted</i>", md)
+        self.assertIn("🟡 tolerated", self.row(md, "risky"))
+        self.assertIn("1 accepted (1 tolerated)", md)
+        self.assertIn("<i>Tolerated</i>", md)
         self.assertIn("&lt;b&gt;x&lt;/b&gt;", md)
         self.assertIn("🟢 ok", self.row(md, "fp"))
-        self.assertIn("1 with accepted risks", md)
+        self.assertIn("1 tolerated", md)
         table = md[md.index("<table>"):]
         self.assertLess(table.index("owner/risky"), table.index("owner/clean"))
 
