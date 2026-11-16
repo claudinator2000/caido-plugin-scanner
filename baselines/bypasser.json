@@ -47,6 +47,24 @@
    "review_by": "2027-05-16",
    "rule": "obf-dynamic-global-access",
    "where": "frontend/index.js:28970"
+  },
+  {
+   "fingerprint": "26a5983231024dd8",
+   "kind": "tolerated",
+   "reason": "Runs request-modification scripts from the plugin's built-in templates, written by the user, or generated on request by the AI model the user set up in Caido, with the base request passed in as data.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-16",
+   "rule": "obf-dynamic-code-exec",
+   "where": "backend/index.js:15906"
+  },
+  {
+   "fingerprint": "88885d091c70e4b9",
+   "kind": "tolerated",
+   "reason": "Runs request-modification scripts from the plugin's built-in templates, written by the user, or generated on request by the AI model the user set up in Caido, with the base request passed in as data.",
+   "owner": "claudinator2000",
+   "review_by": "2027-05-16",
+   "rule": "obf-dynamic-code-exec",
+   "where": "frontend/index.js:15384"
   }
  ]
 }
